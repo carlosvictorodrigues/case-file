@@ -1,0 +1,30 @@
+{
+  "name": "case-file",
+  "version": "1.0.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "description": "Case File - local-first MCPB case workspace for civil process analysis",
+  "scripts": {
+    "build": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.typecheck.json --noEmit",
+    "start": "node dist/server.js",
+    "pack:mcpb": "npx --yes @anthropic-ai/mcpb@2.1.2 pack . case-file.mcpb",
+    "release:mcpb": "npm run build && npm prune --omit=dev --omit=optional && npm run pack:mcpb && npm run verify:mcpb && npm ci",
+    "verify:mcpb": "node scripts/check-mcpb.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "docx": "^9.7.1",
+    "pdf-lib": "1.17.1",
+    "pdfjs-dist": "6.1.200",
+    "sql.js-fts5": "1.4.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.10"
+  }
+}

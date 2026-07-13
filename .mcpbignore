@@ -1,0 +1,22 @@
+src/
+tests/
+.github/
+docs/
+scripts/
+node_modules/.vite/
+tsconfig.typecheck.json
+vitest.config.ts
+*.mcpb
+# Renderização de canvas do pdfjs (optionalDependency) — só extraímos texto.
+node_modules/@napi-rs/
+# sql.js-fts5: o runtime usa apenas dist/sql-wasm.js + dist/sql-wasm.wasm.
+# CUIDADO: nunca usar "*asm*" — "wasm" contém "asm" e o padrão excluiria o
+# proprio runtime (bug de campo v0.3.0: bundle instalado sem sql-wasm.js).
+node_modules/sql.js-fts5/dist/sql-asm*
+node_modules/sql.js-fts5/dist/worker.*
+node_modules/sql.js-fts5/dist/sql-wasm-debug.wasm
+# pdfjs: importamos somente legacy/build/pdf.mjs (+ worker e standard_fonts).
+node_modules/pdfjs-dist/build/
+node_modules/pdfjs-dist/legacy/build/*.min.mjs
+node_modules/pdfjs-dist/image_decoders/
+node_modules/pdfjs-dist/web/

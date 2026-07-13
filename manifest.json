@@ -1,0 +1,115 @@
+{
+  "manifest_version": "0.4",
+  "name": "case-file",
+  "display_name": "Case File",
+  "version": "1.0.0",
+  "description": "Leia e consulte processos judiciais direto no seu computador: respostas com o documento e a pagina de origem de cada informacao, linha do tempo, quadro de controversias e relatorios prontos em Word. O processo nunca sai da sua maquina.",
+  "author": {
+    "name": "Case File"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carlosvictorodrigues/case-file"
+  },
+  "homepage": "https://github.com/carlosvictorodrigues/case-file",
+  "support": "https://github.com/carlosvictorodrigues/case-file/issues",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/server.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/server.js"],
+      "env": {
+        "CASE_FILE_CASES_DIR": "${user_config.cases_dir}",
+        "GEMINI_API_KEY": "${user_config.gemini_api_key}",
+        "GEMINI_OCR_MODEL": "${user_config.gemini_ocr_model}",
+        "GEMINI_EMBEDDING_MODEL": "${user_config.gemini_embedding_model}",
+        "CASE_FILE_OCR_MAX_CONCURRENCY": "${user_config.ocr_max_concurrency}",
+        "CASE_FILE_OCR_MAX_RETRY_ATTEMPTS": "${user_config.ocr_max_retry_attempts}",
+        "CASE_FILE_OCR_APPROVAL_PAGE_THRESHOLD": "${user_config.ocr_approval_page_threshold}"
+      }
+    }
+  },
+  "tools": [
+    { "name": "criar_caso_local", "description": "Cria um workspace local a partir de um PDF dentro da pasta autorizada." },
+    { "name": "status_caso", "description": "Mostra progresso e alertas de ingestao local." },
+    { "name": "listar_casos", "description": "Lista os casos da pasta autorizada (partes, paginas, estado, dossie)." },
+    { "name": "case_file", "description": "Retorna mapa compacto do caso, sem paginas inteiras." },
+    { "name": "mapa_do_caderno", "description": "Indice dos autos com o sistema de origem (PJe, eproc ou e-STJ): documentos do caderno com paginas, data de juntada e citacao no padrao do sistema." },
+    { "name": "linha_do_tempo", "description": "Cronologia deterministica: eventos datados + juntadas do caderno, com filtro de periodo." },
+    { "name": "anotar_achado", "description": "Registra um fato apurado no dossie persistente do caso, com lastro validado." },
+    { "name": "dossie", "description": "Restaura os achados registrados da investigacao (sobrevive a compactacao e novas sessoes)." },
+    { "name": "buscar_no_processo", "description": "Busca evidencias no processo local (hibrida ou lexical, com trechos)." },
+    { "name": "indexar_semantica", "description": "Gera embeddings BYOK do caso com teto explicito de chamadas." },
+    { "name": "ler_original", "description": "Reabre o verbatim integral por evidencia ou por pagina, com citacao forense e link local do PDF." },
+    { "name": "abrir_no_computador", "description": "Abre no computador do usuario o PDF da pagina (ou o processo) no visualizador padrao, ou revela no Explorer. Restrito a pasta autorizada." },
+    { "name": "exportar_documento", "description": "Converte relatorio/minuta em DOCX (Word) na pasta exports/ do caso e solicita a abertura na tela." },
+    { "name": "mapear_controversias", "description": "Quadro de controversias: ocorrencias por tema agrupadas por peca (inicial, contestacao, replica, atos, provas)." },
+    { "name": "montar_pacote_evidencias", "description": "Monta bundle pequeno para analise ou jurisprudencia." },
+    { "name": "retomar_ingestao", "description": "Retoma o worker local de ingestao quando o cliente reinicia, a chave Gemini passa a existir ou o OCR foi aprovado." },
+    { "name": "autorizar_ocr", "description": "Autoriza OCR BYOK com limites explicitos de paginas e chamadas." },
+    { "name": "analisar_radar_processual_civel", "description": "Gera apontamentos processuais civeis candidatos, com prazo de referencia da tabela curada e sem conclusao final de prazo." },
+    { "name": "consultar_prazos_referencia", "description": "Tabela local curada de prazos civeis (CPC) com base legal." },
+    { "name": "analisar_caso_civel", "description": "Macro local que combina cobertura, radar e pacote de evidencias com lacunas explicitas." },
+    { "name": "registrar_jurisprudencia", "description": "Registra no caso os doc_ids reais retornados pelo MCP de jurisprudencia conectado." },
+    { "name": "verificar_referencias", "description": "Valida evidence_ids e doc_ids registrados antes de relatorio final." }
+  ],
+  "tools_generated": true,
+  "compatibility": {
+    "claude_desktop": ">=1.0.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": { "node": ">=20.0.0" }
+  },
+  "user_config": {
+    "cases_dir": {
+      "type": "directory",
+      "title": "Pasta local dos casos",
+      "description": "O Case File so podera ler e escrever dentro desta pasta.",
+      "multiple": false,
+      "required": true,
+      "default": "${HOME}/CaseFile"
+    },
+    "gemini_api_key": {
+      "type": "string",
+      "title": "Gemini API key (recomendada)",
+      "description": "Usada localmente, sob a chave do usuario, para ler paginas escaneadas (OCR) e habilitar a busca por significado. Custo tipico: poucos reais por processo inteiro. IMPORTANTE: no tier gratuito da API o Google usa os dados enviados para melhorar seus produtos; para processos sigilosos use chave de projeto com faturamento ativo (tier pago nao usa). Sem chave, o Case File funciona em PDFs nativos; configure depois e peca para retomar a preparacao.",
+      "sensitive": true,
+      "required": false
+    },
+    "gemini_ocr_model": {
+      "type": "string",
+      "title": "Modelo Gemini para OCR",
+      "description": "Modelo usado para transcricao OCR local BYOK.",
+      "required": false,
+      "default": "gemini-3.5-flash"
+    },
+    "gemini_embedding_model": {
+      "type": "string",
+      "title": "Modelo Gemini para embeddings",
+      "description": "Modelo usado para gerar embeddings locais BYOK (busca semantica).",
+      "required": false,
+      "default": "gemini-embedding-2"
+    },
+    "ocr_max_concurrency": {
+      "type": "string",
+      "title": "Concorrencia OCR",
+      "description": "Limite conservador de chamadas OCR simultaneas.",
+      "required": false,
+      "default": "2"
+    },
+    "ocr_max_retry_attempts": {
+      "type": "string",
+      "title": "Tentativas OCR",
+      "description": "Numero maximo de tentativas para falhas retryable de OCR.",
+      "required": false,
+      "default": "3"
+    },
+    "ocr_approval_page_threshold": {
+      "type": "string",
+      "title": "Limite para aprovacao OCR",
+      "description": "Quantidade de paginas OCR acima da qual a aprovacao explicita e obrigatoria.",
+      "required": false,
+      "default": "25"
+    }
+  }
+}

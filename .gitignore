@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.mcpb
+*.log
+.env
+.env.*
+coverage/
+.vitest/
+CaseKitCases/
+.DS_Store
+Thumbs.db
