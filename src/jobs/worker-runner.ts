@@ -494,7 +494,7 @@ async function ocrPhase(
         if (!capAlerted) {
           capAlerted = true;
           alerts.push(
-            `Limite autorizado de OCR atingido (${pagesDone} pagina(s), ${callsMade} chamada(s)); use autorizar_ocr para ampliar.`,
+            `Limite autorizado de leitura de paginas escaneadas atingido (${pagesDone} pagina(s)); use autorizar_ocr para ampliar.`,
           );
         }
         return;
@@ -682,7 +682,7 @@ function finalizeJob(
 
   const pendingOcr = ledger.filter((entry) => OCR_QUEUE_STATES.has(entry.state)).length;
   const pendingAlert = pendingOcr
-    ? [`${pendingOcr} pagina(s) precisam de OCR para leitura confiavel.`]
+    ? [`${pendingOcr} pagina(s) escaneadas aguardam leitura (requer aprovacao de custo).`]
     : [];
   const alerts = [...pendingAlert, ...ocrAlerts, ...coverage.warnings];
   // Cinto e suspensório: se o LEDGER cobre menos páginas que o PDF tem, o
@@ -705,7 +705,7 @@ function finalizeJob(
   const covered = ledger.length;
   if (covered < totalPagesPdf) {
     alerts.push(
-      `Ingestao incompleta: ${covered} de ${totalPagesPdf} pagina(s) no ledger. Retome a ingestao.`,
+      `Preparacao incompleta: ${covered} de ${totalPagesPdf} pagina(s) lidas. Retome a preparacao.`,
     );
   }
   const status: IngestJobStatus =

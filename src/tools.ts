@@ -327,12 +327,12 @@ export function makeTools(config: CaseFileConfig, deps: ToolDependencies = {}) {
       if (
         (statusAtual.status === "running" || statusAtual.status === "queued") &&
         statusAtual.execucao &&
-        !statusAtual.execucao.includes("INATIVO")
+        !statusAtual.execucao.includes("INTERROMPIDA")
       ) {
         return {
           case_id: args.case_id,
           status: "retomada_nao_agendada",
-          message: `Já há um worker ativo neste caso (${statusAtual.execucao}). Aguarde e consulte status_caso; retomar agora causaria disputa. Retome apenas se o status indicar worker INATIVO ou erro.`,
+          message: `A preparação deste caso está em andamento (${statusAtual.execucao}). Aguarde e consulte status_caso; retomar agora causaria conflito. Retome apenas se o status indicar preparação INTERROMPIDA ou erro.`,
         };
       }
       // Em background: um processo grande estourava o timeout do cliente MCP
@@ -346,7 +346,7 @@ export function makeTools(config: CaseFileConfig, deps: ToolDependencies = {}) {
       return {
         case_id: args.case_id,
         status: "retomada_iniciada_em_background",
-        message: "Ingestao retomada em background; acompanhe com status_caso.",
+        message: "Preparação retomada; acompanhe com status_caso.",
       };
     },
 

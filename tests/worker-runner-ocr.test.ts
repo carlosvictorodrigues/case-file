@@ -111,7 +111,7 @@ describe("governanca de OCR no runner", () => {
     expect(ledger.filter((row) => row.state === "ocr_needed")).toHaveLength(1);
     expect(resumed.status).toBe("done");
     const status = getStatus(root, "caso-teto");
-    expect(status.alerts.join(" ")).toContain("Limite autorizado de OCR");
+    expect(status.alerts.join(" ")).toContain("Limite autorizado de leitura");
   });
 
   it("erro de OCR numa pagina nao aborta o job: retry e failed_retryable", async () => {

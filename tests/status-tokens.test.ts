@@ -102,7 +102,7 @@ describe("compressão da lista de páginas pendentes (payload do chat)", () => {
     const status = getStatus(root, "caso-longo");
     expect(status.needs_ocr_pages).toHaveLength(10);
     expect(status.needs_ocr_pages[0]).toBe(101);
-    expect(status.needs_ocr_resumo).toContain("37 páginas pendentes");
+    expect(status.needs_ocr_resumo).toContain("37 páginas escaneadas aguardando leitura");
     expect(status.needs_ocr_resumo).toContain("101–137");
     // A estimativa de custo continua contando TODAS as pendentes.
     expect(status.custo_estimado_ocr).toContain("37 página(s)");

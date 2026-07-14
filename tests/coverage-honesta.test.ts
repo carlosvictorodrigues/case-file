@@ -130,7 +130,7 @@ describe("atestado de vida do worker no status", () => {
     alerts: [],
   };
 
-  it("running com heartbeat vencido reporta worker INATIVO e manda retomar", () => {
+  it("running com heartbeat vencido reporta preparação INTERROMPIDA e manda retomar", () => {
     const root = tmpRoot();
     writeCase(root, "caso-vida", baseStatus, {
       last_heartbeat_at: new Date(Date.now() - 30 * 60_000).toISOString(),
@@ -138,12 +138,12 @@ describe("atestado de vida do worker no status", () => {
     });
 
     const status = getStatus(root, "caso-vida");
-    expect(status.execucao).toContain("INATIVO");
+    expect(status.execucao).toContain("INTERROMPIDA");
     expect(status.proxima_acao).toContain("retomar_ingestao");
     expect(status.proxima_acao).toContain("seguro");
   });
 
-  it("running com heartbeat fresco reporta worker ativo e manda AGUARDAR", () => {
+  it("running com heartbeat fresco reporta preparação em andamento e manda AGUARDAR", () => {
     const root = tmpRoot();
     writeCase(root, "caso-vida", baseStatus, {
       last_heartbeat_at: new Date(Date.now() - 5_000).toISOString(),
@@ -151,7 +151,7 @@ describe("atestado de vida do worker no status", () => {
     });
 
     const status = getStatus(root, "caso-vida");
-    expect(status.execucao).toContain("worker ativo");
+    expect(status.execucao).toContain("preparação em andamento");
     expect(status.proxima_acao).toContain("aguardar");
   });
 
@@ -168,6 +168,6 @@ describe("atestado de vida do worker no status", () => {
       message: string;
     };
     expect(result.status).toBe("retomada_nao_agendada");
-    expect(result.message).toContain("worker ativo");
+    expect(result.message).toContain("preparação deste caso está em andamento");
   });
 });

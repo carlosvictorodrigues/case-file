@@ -84,18 +84,18 @@ export function buildCoverageManifest(input: {
       piece_type: "unknown",
       // Só as bordas: listar milhares de páginas estouraria o payload.
       pages: [missing[0], missing[missing.length - 1]],
-      reason: `O PDF tem ${input.total_pages} página(s) e apenas ${input.pages.length} foram extraídas — retome a ingestão.`,
+      reason: `O PDF tem ${input.total_pages} página(s) e apenas ${input.pages.length} foram lidas — retome a preparação.`,
     });
   }
 
   const warnings = critical_gaps.length
-    ? ["Analise global bloqueada: ha lacunas criticas de OCR ou paginas desconhecidas nao lidas."]
+    ? ["Analise global bloqueada: ha paginas criticas ainda nao lidas."]
     : [];
   if (pagesOcrStampOnly.length) {
     // Não bloqueia a análise global (a página foi lida no melhor esforço),
     // mas o conteúdo fotografado pode não estar transcrito — honestidade > silêncio.
     warnings.push(
-      `${pagesOcrStampOnly.length} pagina(s) OCRizadas renderam apenas carimbos digitais (provavel foto/manuscrito nao transcrito); disponiveis na busca semantica visual — confira o original antes de usar como prova.`,
+      `${pagesOcrStampOnly.length} pagina(s) escaneadas cuja leitura rendeu apenas os carimbos digitais (provavel foto/manuscrito nao transcrito); seguem localizaveis pela busca por significado — confira o original antes de usar como prova.`,
     );
   }
 

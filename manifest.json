@@ -2,7 +2,7 @@
   "manifest_version": "0.4",
   "name": "case-file",
   "display_name": "Case File",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Leia e consulte processos judiciais direto no seu computador: respostas com o documento e a pagina de origem de cada informacao, linha do tempo, quadro de controversias e relatorios prontos em Word. O processo nunca sai da sua maquina.",
   "author": {
     "name": "Case File"

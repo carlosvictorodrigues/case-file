@@ -93,9 +93,9 @@ function brl(valor: number): string {
 }
 
 export function estimativaCustoOcr(paginas: number): string {
-  return `${paginas} página(s) escaneada(s) ≈ ${brl(paginas * OCR_CUSTO_MIN_BRL)} a ${brl(
+  return `Ler ${paginas} página(s) escaneada(s) ≈ ${brl(paginas * OCR_CUSTO_MIN_BRL)} a ${brl(
     paginas * OCR_CUSTO_MAX_BRL,
-  )} na chave Gemini do usuário (gemini-3.5-flash, tier pago; referência jul/2026 — confirme a tabela vigente).`;
+  )}, cobrados na conta Google do usuário (referência jul/2026 — o preço é do Google e pode mudar).`;
 }
 
 /** Preço gemini-3.5-flash tier pago (US$/1M tokens) e câmbio — referência jul/2026. */
@@ -106,11 +106,7 @@ const USD_BRL = 5.4;
 function custoAcumuladoOcr(tokens: { entrada: number; saida: number }): string {
   const usd =
     (tokens.entrada * OCR_USD_POR_1M_ENTRADA + tokens.saida * OCR_USD_POR_1M_SAIDA) / 1_000_000;
-  return `≈ ${brl(usd * USD_BRL)} já gastos em OCR nesta ingestão (${tokens.entrada.toLocaleString(
-    "pt-BR",
-  )} tokens de entrada + ${tokens.saida.toLocaleString(
-    "pt-BR",
-  )} de saída, tabela de jul/2026 — o valor exato é o da fatura Google).`;
+  return `≈ ${brl(usd * USD_BRL)} já gastos com a leitura de páginas escaneadas nesta preparação (estimado pela tabela de jul/2026; o valor exato é o da fatura Google).`;
 }
 
 /** Acima disso a lista de páginas pendentes vira resumo (payload do chat). */
@@ -138,13 +134,13 @@ function avaliarExecucao(
   const prazoMs = (job.heartbeat_deadline_ms ?? 30_000) * WORKER_STALE_MULTIPLIER;
   if (idadeMs <= prazoMs) {
     return {
-      execucao: `worker ativo (último sinal há ${Math.max(1, Math.round(idadeMs / 1000))}s)`,
+      execucao: `preparação em andamento (último sinal há ${Math.max(1, Math.round(idadeMs / 1000))}s)`,
       interrompida: false,
     };
   }
   const minutos = Math.round(idadeMs / 60_000);
   return {
-    execucao: `worker INATIVO há ~${minutos} min — a ingestão foi interrompida (queda/reinício); o status gravado não reflete um processo vivo`,
+    execucao: `preparação INTERROMPIDA há ~${minutos} min (queda ou reinício do aplicativo) — o andamento gravado não reflete um processo vivo`,
     interrompida: true,
   };
 }
@@ -170,10 +166,10 @@ export function getStatus(
   const execucao = avaliarExecucao(paths.artifactsDir, status.status);
   if (execucao.interrompida) {
     proximaAcao =
-      "retomar_ingestao (seguro: o worker anterior morreu; a retomada continua do ponto onde parou, sem repetir custo)";
+      "retomar_ingestao (seguro: a preparação anterior foi interrompida; continua do ponto onde parou, sem repetir custo)";
   } else if (status.status === "running" && execucao.execucao) {
     proximaAcao =
-      "aguardar — worker ativo processando; consulte status_caso de novo em ~60s (NÃO chame retomar_ingestao com worker ativo)";
+      "aguardar — preparação em andamento; consulte status_caso de novo em ~60s (NÃO retome com a preparação ativa)";
   } else if (status.status === "paused_awaiting_ocr_approval") {
     proximaAcao =
       "autorizar_ocr (apresente o custo_estimado_ocr ao usuário antes) e depois retomar_ingestao";
@@ -181,7 +177,7 @@ export function getStatus(
   } else if (status.status === "error") {
     proximaAcao = "retomar_ingestao (retoma do ponto onde parou, sem repetir custo)";
   } else if (pendentes) {
-    proximaAcao = "retomar_ingestao para processar as páginas de OCR pendentes";
+    proximaAcao = "retomar_ingestao para ler as páginas escaneadas pendentes";
     custoEstimado = estimativaCustoOcr(pendentes);
   }
   // Lista longa de páginas pendentes vira resumo: 800 números no status
@@ -189,7 +185,7 @@ export function getStatus(
   let needsOcrPages = status.needs_ocr_pages ?? [];
   let needsOcrResumo: string | undefined;
   if (needsOcrPages.length > NEEDS_OCR_LISTA_MAX) {
-    needsOcrResumo = `${needsOcrPages.length} páginas pendentes de OCR (págs. ${needsOcrPages[0]}–${
+    needsOcrResumo = `${needsOcrPages.length} páginas escaneadas aguardando leitura (págs. ${needsOcrPages[0]}–${
       needsOcrPages[needsOcrPages.length - 1]
     } do PDF); mostrando as ${NEEDS_OCR_LISTA_MOSTRA} primeiras.`;
     needsOcrPages = needsOcrPages.slice(0, NEEDS_OCR_LISTA_MOSTRA);
@@ -741,7 +737,7 @@ export async function indexSemantics(
             if (visual) embeddedVisual += batch.length;
           } catch (error) {
             aviso = redactSecrets(
-              error instanceof Error ? error.message : "Falha ao gerar embeddings.",
+              error instanceof Error ? error.message : "Falha ao preparar a busca por significado.",
               [options.geminiApiKey],
             );
           }
