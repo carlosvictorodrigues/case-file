@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { detectLegalConcepts } from "../civil/case-file-facts.js";
@@ -193,6 +193,46 @@ export function getStatus(
     proxima_acao: proximaAcao,
     custo_estimado_ocr: custoEstimado,
     custo_acumulado_ocr: status.ocr_tokens ? custoAcumuladoOcr(status.ocr_tokens) : undefined,
+  };
+}
+
+/**
+ * Move o caso para a lixeira local (_lixeira/ dentro da pasta autorizada).
+ * Reversível na mão (mover de volta); exige repetir o case_id em 'confirmar'
+ * — tool destrutiva não roda por acidente de um modelo apressado.
+ */
+export function removerCaso(
+  root: string,
+  caseId: string,
+  confirmar: string,
+): { case_id: string; movido_para: string; aviso: string } {
+  const paths = casePaths(root, caseId);
+  if (confirmar !== paths.caseId) {
+    throw new Error(
+      `Confirmação inválida: repita exatamente o case_id ('${paths.caseId}') no campo 'confirmar'.`,
+    );
+  }
+  const caseDir = resolveInsideRoot(root, join(root, paths.caseId));
+  const lixeira = resolveInsideRoot(root, join(root, "_lixeira"));
+  mkdirSync(lixeira, { recursive: true });
+  const stamp = new Date().toISOString().replace(/\D/g, "").slice(0, 14);
+  const destino = resolveInsideRoot(root, join(lixeira, `${paths.caseId}-${stamp}`));
+  try {
+    renameSync(caseDir, destino);
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code;
+    if (code === "EBUSY" || code === "EPERM" || code === "EACCES") {
+      throw new Error(
+        "Não foi possível mover o caso: há arquivos em uso (provável worker ativo). Aguarde a ingestão terminar ou reinicie o cliente e tente de novo.",
+      );
+    }
+    throw error;
+  }
+  return {
+    case_id: paths.caseId,
+    movido_para: destino,
+    aviso:
+      "Caso movido para a _lixeira/ da pasta autorizada (nada foi apagado). Para restaurar, mova a pasta de volta manualmente; para liberar espaço em definitivo, apague a _lixeira/ pelo Explorer.",
   };
 }
 

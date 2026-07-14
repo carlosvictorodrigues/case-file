@@ -10,6 +10,7 @@ import {
   startIngestJobInBackground,
 } from "../jobs/worker-runner.js";
 import { createWorkspace } from "../storage/workspace.js";
+import { existsSync, readdirSync } from "node:fs";
 
 export type IngestStartMode = "inline" | "background";
 
@@ -106,3 +107,72 @@ export async function ingestCase(
     status,
   };
 }
+
+/** Mesmo fator do worker-lock/status: morte declarada após 4× o deadline. */
+const BOOT_STALE_MULTIPLIER = 4;
+
+export interface InterruptedCase {
+  case_id: string;
+  status: string;
+}
+
+/**
+ * Casos com ingestão interrompida (worker morto no meio) ou em erro — os que
+ * uma retomada resolve sozinha. NUNCA inclui paused_awaiting_ocr_approval:
+ * gate de custo é decisão do usuário, não de boot.
+ */
+export function findInterruptedCases(root: string): InterruptedCase[] {
+  const out: InterruptedCase[] = [];
+  if (!existsSync(root)) return out;
+  for (const dirent of readdirSync(root, { withFileTypes: true })) {
+    if (!dirent.isDirectory() || dirent.name.startsWith("_")) continue;
+    const caseDir = join(root, dirent.name);
+    const statusPath = join(caseDir, "status.json");
+    if (!existsSync(join(caseDir, "case.json")) || !existsSync(statusPath)) continue;
+    try {
+      const status = JSON.parse(readFileSync(statusPath, "utf8")) as CaseStatus;
+      if (status.status === "error") {
+        out.push({ case_id: dirent.name, status: status.status });
+        continue;
+      }
+      if (status.status !== "running" && status.status !== "queued") continue;
+      const jobPath = join(caseDir, "artifacts", "ingest_job.json");
+      if (!existsSync(jobPath)) continue;
+      const job = JSON.parse(readFileSync(jobPath, "utf8")) as {
+        last_heartbeat_at?: string;
+        heartbeat_deadline_ms?: number;
+      };
+      if (!job.last_heartbeat_at) continue;
+      const idade = Date.now() - Date.parse(job.last_heartbeat_at);
+      if (idade > (job.heartbeat_deadline_ms ?? 30_000) * BOOT_STALE_MULTIPLIER) {
+        out.push({ case_id: dirent.name, status: status.status });
+      }
+    } catch {
+      // status ilegível não derruba o boot; o caso fica para triagem manual.
+    }
+  }
+  return out;
+}
+
+/**
+ * Retomada automática no boot do servidor: o host (Claude Desktop) mata o
+ * processo da extensão quando quer — cada novo boot recomeça de onde parou,
+ * sem depender de ninguém chamar retomar_ingestao (achado de campo: worker
+ * morto externamente a ~10min deixava caderno grande sem saída).
+ */
+export function autoResumeInterruptedCases(
+  root: string,
+  options: { geminiApiKey?: string; ocr?: OcrRuntimeOptions } = {},
+): string[] {
+  const interrupted = findInterruptedCases(root);
+  for (const item of interrupted) {
+    startIngestJobInBackground({
+      root,
+      caseId: item.case_id,
+      geminiApiKey: options.geminiApiKey,
+      ocr: options.ocr,
+    });
+  }
+  return interrupted.map((item) => item.case_id);
+}
+

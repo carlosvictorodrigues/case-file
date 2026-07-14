@@ -153,7 +153,12 @@ export class CaseJobStore {
     }
   }
 
-  upsertPage(entry: PageLedgerEntry): void {
+  /** Persiste tudo que está pendente (par do upsertPage com flush adiado). */
+  flushNow(): void {
+    this.opened.flush();
+  }
+
+  upsertPage(entry: PageLedgerEntry, opts: { flush?: boolean } = {}): void {
     const stmt = this.opened.db.prepare(`
       INSERT INTO page_ledger (
         case_id, page, page_hash, state, text_quality_score,
@@ -202,7 +207,9 @@ export class CaseJobStore {
         JSON.stringify(entry.evidence_ids),
         entry.updated_at,
       ]);
-      this.opened.flush();
+      // flush regrava o ARQUIVO inteiro do banco: na fase A em lote, quem
+      // persiste é o flushNow() do batch (2 regravações/página era O(n²)).
+      if (opts.flush !== false) this.opened.flush();
     } finally {
       stmt.free();
     }

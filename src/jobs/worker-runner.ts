@@ -233,11 +233,23 @@ async function processCase(
   store.setTotalPages(jobId, totalPagesPdf);
   store.writeSnapshots(paths.caseId);
 
+  // Retomada INCREMENTAL de verdade: páginas 'done' de runs anteriores nem
+  // são re-extraídas (a cópia do PDF no workspace é imutável). Cada janela
+  // de vida do worker avança o que falta, mesmo que o host mate o processo
+  // periodicamente (achado de campo: morte externa ~10min).
+  const doneBefore = new Set(
+    store
+      .listPages(paths.caseId)
+      .filter((entry) => entry.state === "done")
+      .map((entry) => entry.page),
+  );
+
   // A extração do PDF inteiro pode levar MINUTOS num caderno grande — sem
   // heartbeat aqui o worker vivo parecia morto e a retomada roubava o lease
   // (a causa raiz do "owner mismatch" de campo).
   let lastBeat = Date.now();
   const pages = await extractPdfTextByPage(manifest.source_pdf, {
+    skip: doneBefore,
     onPage: () => {
       if (Date.now() - lastBeat < HEARTBEAT_EVERY_MS) return;
       lastBeat = Date.now();
@@ -247,7 +259,7 @@ async function processCase(
   });
   const index = await CaseIndex.open(paths.db, input.root);
   try {
-    extractPhase(input, paths, store, index, jobId, lockOwner, pages);
+    await extractPhase(input, paths, store, index, jobId, lockOwner, pages);
 
     const estimate = settleOcrEstimate(input, store, paths.caseId);
     const ocrAlerts =
@@ -255,7 +267,7 @@ async function processCase(
         ? await ocrPhase(input, paths, store, index, jobId, lockOwner, pages, estimate, manifest.source_pdf)
         : [];
 
-    return finalizeJob(store, paths, totalPagesPdf, pages.length, ocrAlerts, index);
+    return finalizeJob(store, paths, totalPagesPdf, ocrAlerts, index);
   } finally {
     index.close();
   }
@@ -266,7 +278,10 @@ async function processCase(
  * Páginas já processadas em runs anteriores (mesmo hash de texto nativo)
  * são puladas: retomar uma ingestão não repete trabalho nem custo.
  */
-function extractPhase(
+const EXTRACT_BATCH_PAGES = 50;
+const YIELD_EVERY_PAGES = 10;
+
+async function extractPhase(
   input: RunIngestJobInput,
   paths: CaseRunnerPaths,
   store: CaseJobStore,
@@ -274,18 +289,39 @@ function extractPhase(
   jobId: string,
   lockOwner: string,
   pages: PdfPageText[],
-): void {
+): Promise<void> {
   const existing = new Map(store.listPages(paths.caseId).map((entry) => [entry.page, entry]));
 
-  // Throttle: renovar lease + snapshot por PÁGINA era O(n²) de I/O num
-  // caderno de milhares de páginas (cada flush regrava o banco inteiro).
+  // Fase A em LOTE: indexar evidência e gravar ledger página a página fazia
+  // 2 regravações do banco INTEIRO por página (O(n²) num caderno grande).
+  // O lote persiste a cada 50 páginas — evidência ANTES do ledger, na mesma
+  // leva (crash entre os dois = página re-extraída, nunca ledger órfão).
+  let unitsBatch: EvidenceUnit[] = [];
+  let entriesBatch: PageLedgerEntry[] = [];
+  const commitBatch = (): void => {
+    if (!unitsBatch.length && !entriesBatch.length) return;
+    if (unitsBatch.length) index.upsertEvidence(unitsBatch);
+    for (const entry of entriesBatch) store.upsertPage(entry, { flush: false });
+    store.flushNow();
+    unitsBatch = [];
+    entriesBatch = [];
+  };
+
   let lastBeat = 0;
-  let snapshotDue = false;
+  let sinceYield = 0;
   for (const page of pages) {
+    // A fase A é CPU-bound: sem devolver o event loop, o servidor MCP fica
+    // mudo por minutos (não responde ping/status) e o host o considera
+    // morto — suspeito central da morte externa ~10min de campo.
+    if (++sinceYield >= YIELD_EVERY_PAGES) {
+      sinceYield = 0;
+      await new Promise((resolve) => setImmediate(resolve));
+    }
     if (Date.now() - lastBeat >= HEARTBEAT_EVERY_MS) {
       lastBeat = Date.now();
-      snapshotDue = true;
+      commitBatch();
       renewOrLoseLease({ caseDir: paths.caseDir, store, jobId, lockOwner });
+      store.writeSnapshots(paths.caseId);
     }
 
     const nativeHash = sha256(page.text);
@@ -305,14 +341,14 @@ function extractPhase(
       textReliable: !needsOcr,
     });
     const unit = pageToUnit(paths.caseId, page.page, page.text);
-    index.upsertEvidence([unit]);
 
     let state: PageLedgerEntry["state"] = "done";
     if (needsOcr) {
       state = input.geminiApiKey ? "ocr_needed" : "skipped_no_key";
     }
 
-    store.upsertPage({
+    unitsBatch.push(unit);
+    entriesBatch.push({
       case_id: paths.caseId,
       page: page.page,
       page_hash: nativeHash,
@@ -328,13 +364,11 @@ function extractPhase(
       evidence_ids: [unit.evidence_id],
       updated_at: new Date().toISOString(),
     });
-    if (snapshotDue) {
-      // Snapshot acompanha o heartbeat (~a cada 10s): progresso visível sem
-      // regravar o ledger inteiro a cada página.
-      snapshotDue = false;
-      store.writeSnapshots(paths.caseId);
+    if (entriesBatch.length >= EXTRACT_BATCH_PAGES) {
+      commitBatch();
     }
   }
+  commitBatch();
   store.writeSnapshots(paths.caseId);
 }
 
@@ -633,7 +667,6 @@ function finalizeJob(
   store: CaseJobStore,
   paths: CaseRunnerPaths,
   totalPagesPdf: number,
-  extractedPages: number,
   ocrAlerts: string[],
   index: CaseIndex,
 ): IngestJobStatus {
@@ -652,16 +685,18 @@ function finalizeJob(
     ? [`${pendingOcr} pagina(s) precisam de OCR para leitura confiavel.`]
     : [];
   const alerts = [...pendingAlert, ...ocrAlerts, ...coverage.warnings];
-  // Cinto e suspensório: se a extração devolveu menos páginas que o PDF tem,
-  // o caso NÃO fecha como done — done truncado é a mentira que este release
-  // elimina.
-  if (extractedPages < totalPagesPdf) {
+  // Cinto e suspensório: se o LEDGER cobre menos páginas que o PDF tem, o
+  // caso NÃO fecha como done — done truncado é a mentira que se eliminou.
+  // (Comparar pelo ledger, não pela extração desta run: a retomada pula
+  // páginas já lidas de propósito.)
+  const covered = ledger.length;
+  if (covered < totalPagesPdf) {
     alerts.push(
-      `Extracao incompleta: ${extractedPages} de ${totalPagesPdf} pagina(s). Retome a ingestao.`,
+      `Ingestao incompleta: ${covered} de ${totalPagesPdf} pagina(s) no ledger. Retome a ingestao.`,
     );
   }
   const status: IngestJobStatus =
-    extractedPages < totalPagesPdf
+    covered < totalPagesPdf
       ? "error"
       : estimate.requires_approval && !estimate.approved
         ? "paused_awaiting_ocr_approval"

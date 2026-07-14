@@ -4,6 +4,7 @@ import {
   analyzeCivilCase,
   analyzeCivilRadar,
   authorizeOcr,
+  removerCaso,
   buildEvidenceBundle,
   consultarLinhaDoTempo,
   consultarMapaCaderno,
@@ -27,7 +28,7 @@ import { verifyReferences } from "./core/verifier.js";
 import { createCaseJob, type IngestStartMode } from "./ingest/worker.js";
 import { startIngestJobInBackground, type OcrRuntimeOptions } from "./jobs/worker-runner.js";
 
-function ocrOptions(config: CaseFileConfig): OcrRuntimeOptions {
+export function ocrOptions(config: CaseFileConfig): OcrRuntimeOptions {
   return {
     model: config.ocrModel,
     maxRetryAttempts: config.ocrMaxRetryAttempts,
@@ -49,6 +50,10 @@ const createCaseSchema = z.object({
   slug: z.string().optional(),
 });
 const caseIdSchema = z.object({ case_id: z.string() });
+const removerCasoSchema = z.object({
+  case_id: z.string().min(1),
+  confirmar: z.string().min(1),
+});
 const searchSchema = z.object({
   case_id: z.string(),
   query: z.string(),
@@ -304,6 +309,11 @@ export function makeTools(config: CaseFileConfig, deps: ToolDependencies = {}) {
           dadosPessoaisAdicionais: args.dados_pessoais_adicionais,
         },
       );
+    },
+
+    async remover_caso(input: unknown) {
+      const args = removerCasoSchema.parse(input);
+      return removerCaso(config.casesDir, args.case_id, args.confirmar);
     },
 
     async retomar_ingestao(input: unknown) {

@@ -53,8 +53,15 @@ export async function countPdfPages(pdfPath: string): Promise<number> {
 }
 
 export interface ExtractPdfOptions {
-  /** Chamado após cada página extraída — usado p/ heartbeat do lease. */
+  /** Chamado após cada página varrida (extraída OU pulada) — heartbeat. */
   onPage?: (pageNo: number, totalPages: number) => void;
+  /**
+   * Páginas a PULAR (já lidas em runs anteriores). Seguro porque a cópia do
+   * PDF no workspace é imutável desde a criação do caso — página 'done' não
+   * precisa de re-extração nem re-hash na retomada. Torna cada janela de
+   * vida do worker proporcional ao que FALTA, não ao tamanho do PDF.
+   */
+  skip?: ReadonlySet<number>;
 }
 
 export async function extractPdfTextByPage(
@@ -76,6 +83,10 @@ export async function extractPdfTextByPage(
     const pages: PdfPageText[] = [];
 
     for (let pageNo = 1; pageNo <= doc.numPages; pageNo++) {
+      if (options.skip?.has(pageNo)) {
+        options.onPage?.(pageNo, doc.numPages);
+        continue;
+      }
       const page = await doc.getPage(pageNo);
       const content = await page.getTextContent();
       const text = content.items
