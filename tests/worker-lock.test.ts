@@ -46,6 +46,31 @@ describe("worker lock", () => {
     s.store.close();
   });
 
+  it("nao rouba lease dentro da margem de 4x o deadline (worker vivo em fase longa)", async () => {
+    const s = await setup();
+    const first = acquireWorkerLease({
+      caseDir: s.caseDir,
+      store: s.store,
+      jobId: s.job.job_id,
+      now: "2026-07-07T20:00:00.000Z",
+      heartbeatDeadlineMs: 1000,
+    });
+    expect(first.acquired).toBe(true);
+
+    // 2x o deadline: antes era roubado (incidente de campo); agora aguarda.
+    const early = acquireWorkerLease({
+      caseDir: s.caseDir,
+      store: s.store,
+      jobId: s.job.job_id,
+      now: "2026-07-07T20:00:02.000Z",
+      heartbeatDeadlineMs: 1000,
+    });
+    expect(early).toMatchObject({ acquired: false, reason: "worker_lock_live" });
+    if (early.acquired) throw new Error("expected refusal");
+    expect(early.heartbeat_age_ms).toBe(2000);
+    s.store.close();
+  });
+
   it("reclaims an expired lease and renews heartbeat", async () => {
     const s = await setup();
     const first = acquireWorkerLease({
@@ -58,11 +83,12 @@ describe("worker lock", () => {
     expect(first.acquired).toBe(true);
     if (!first.acquired) throw new Error("expected first lease");
 
+    // 5x o deadline: dono declarado morto, lease pode ser reivindicado.
     const reclaimed = acquireWorkerLease({
       caseDir: s.caseDir,
       store: s.store,
       jobId: s.job.job_id,
-      now: "2026-07-07T20:00:02.000Z",
+      now: "2026-07-07T20:00:05.000Z",
       heartbeatDeadlineMs: 1000,
     });
     expect(reclaimed.acquired).toBe(true);
@@ -74,9 +100,9 @@ describe("worker lock", () => {
       store: s.store,
       jobId: s.job.job_id,
       lockOwner: reclaimed.lock_owner,
-      now: "2026-07-07T20:00:02.500Z",
+      now: "2026-07-07T20:00:05.500Z",
     });
-    expect(s.store.getJob(s.job.job_id)?.last_heartbeat_at).toBe("2026-07-07T20:00:02.500Z");
+    expect(s.store.getJob(s.job.job_id)?.last_heartbeat_at).toBe("2026-07-07T20:00:05.500Z");
     s.store.close();
   });
 

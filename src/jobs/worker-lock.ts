@@ -13,7 +13,21 @@ export interface WorkerLeaseInput {
 
 export type WorkerLeaseResult =
   | { acquired: true; lock_owner: string }
-  | { acquired: false; reason: "worker_lock_live"; lock_owner?: string };
+  | {
+      acquired: false;
+      reason: "worker_lock_live";
+      lock_owner?: string;
+      /** Idade do último heartbeat do dono — p/ mensagem "worker ativo há Xs". */
+      heartbeat_age_ms?: number;
+    };
+
+/**
+ * Margem antes de ROUBAR um lease: o dono só é declarado morto após
+ * STALE_LEASE_MULTIPLIER × deadline sem heartbeat. Deadline cru (30s) era
+ * menor que fases legítimas sem sinal (incidente caso-3: retomada roubou o
+ * lease de um worker VIVO extraindo um PDF grande → "owner mismatch").
+ */
+export const STALE_LEASE_MULTIPLIER = 4;
 
 interface LockFile {
   lock_owner?: string;
@@ -52,13 +66,20 @@ export function acquireWorkerLease(input: WorkerLeaseInput): WorkerLeaseResult {
     const lock = readLockFile(lockPath);
     const ownerJob = lock?.job_id ? input.store.getJob(lock.job_id) : undefined;
     const live = ownerJob
-      ? isLeaseLive(ownerJob.last_heartbeat_at, ownerJob.heartbeat_deadline_ms, input.now)
+      ? isLeaseLive(
+          ownerJob.last_heartbeat_at,
+          ownerJob.heartbeat_deadline_ms * STALE_LEASE_MULTIPLIER,
+          input.now,
+        )
       : false;
     if (live) {
       return {
         acquired: false,
         reason: "worker_lock_live",
         lock_owner: lock?.lock_owner ?? ownerJob?.lock_owner,
+        heartbeat_age_ms: ownerJob?.last_heartbeat_at
+          ? Date.parse(input.now) - Date.parse(ownerJob.last_heartbeat_at)
+          : undefined,
       };
     }
     unlinkSync(lockPath);

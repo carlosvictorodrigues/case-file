@@ -225,6 +225,19 @@ export class CaseJobStore {
     }
   }
 
+  /** Grava o total REAL de páginas do PDF (denominador autoritativo). */
+  setTotalPages(jobId: string, totalPages: number): void {
+    const stmt = this.opened.db.prepare(
+      "UPDATE ingest_jobs SET total_pages = ? WHERE job_id = ?",
+    );
+    try {
+      stmt.run([Math.max(0, Math.floor(totalPages)), jobId]);
+      this.opened.flush();
+    } finally {
+      stmt.free();
+    }
+  }
+
   addOcrTokens(jobId: string, entrada: number, saida: number): void {
     if (!entrada && !saida) return;
     const stmt = this.opened.db.prepare(`

@@ -108,6 +108,38 @@ function custoAcumuladoOcr(tokens: { entrada: number; saida: number }): string {
 const NEEDS_OCR_LISTA_MAX = 20;
 const NEEDS_OCR_LISTA_MOSTRA = 10;
 
+/** Mesmo fator do worker-lock: só declara morte após 4× o prazo de heartbeat. */
+const WORKER_STALE_MULTIPLIER = 4;
+
+function avaliarExecucao(
+  artifactsDir: string,
+  statusAtual: string,
+): { execucao?: string; interrompida: boolean } {
+  if (statusAtual !== "running" && statusAtual !== "queued") {
+    return { interrompida: false };
+  }
+  const job = readOptionalJson<{
+    last_heartbeat_at?: string;
+    heartbeat_deadline_ms?: number;
+  }>(join(artifactsDir, "ingest_job.json"));
+  if (!job?.last_heartbeat_at) {
+    return { interrompida: false };
+  }
+  const idadeMs = Date.now() - Date.parse(job.last_heartbeat_at);
+  const prazoMs = (job.heartbeat_deadline_ms ?? 30_000) * WORKER_STALE_MULTIPLIER;
+  if (idadeMs <= prazoMs) {
+    return {
+      execucao: `worker ativo (último sinal há ${Math.max(1, Math.round(idadeMs / 1000))}s)`,
+      interrompida: false,
+    };
+  }
+  const minutos = Math.round(idadeMs / 60_000);
+  return {
+    execucao: `worker INATIVO há ~${minutos} min — a ingestão foi interrompida (queda/reinício); o status gravado não reflete um processo vivo`,
+    interrompida: true,
+  };
+}
+
 export function getStatus(
   root: string,
   caseId: string,
@@ -116,6 +148,7 @@ export function getStatus(
   custo_estimado_ocr?: string;
   custo_acumulado_ocr?: string;
   needs_ocr_resumo?: string;
+  execucao?: string;
 } {
   const paths = casePaths(root, caseId);
   const status = readJson<CaseStatus>(paths.status);
@@ -125,7 +158,14 @@ export function getStatus(
   let proximaAcao: string | undefined;
   let custoEstimado: string | undefined;
   const pendentes = status.needs_ocr_pages?.length ?? 0;
-  if (status.status === "paused_awaiting_ocr_approval") {
+  const execucao = avaliarExecucao(paths.artifactsDir, status.status);
+  if (execucao.interrompida) {
+    proximaAcao =
+      "retomar_ingestao (seguro: o worker anterior morreu; a retomada continua do ponto onde parou, sem repetir custo)";
+  } else if (status.status === "running" && execucao.execucao) {
+    proximaAcao =
+      "aguardar — worker ativo processando; consulte status_caso de novo em ~60s (NÃO chame retomar_ingestao com worker ativo)";
+  } else if (status.status === "paused_awaiting_ocr_approval") {
     proximaAcao =
       "autorizar_ocr (apresente o custo_estimado_ocr ao usuário antes) e depois retomar_ingestao";
     custoEstimado = estimativaCustoOcr(pendentes);
@@ -149,6 +189,7 @@ export function getStatus(
     ...status,
     needs_ocr_pages: needsOcrPages,
     needs_ocr_resumo: needsOcrResumo,
+    execucao: execucao.execucao,
     proxima_acao: proximaAcao,
     custo_estimado_ocr: custoEstimado,
     custo_acumulado_ocr: status.ocr_tokens ? custoAcumuladoOcr(status.ocr_tokens) : undefined,

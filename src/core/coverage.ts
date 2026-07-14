@@ -66,6 +66,28 @@ export function buildCoverageManifest(input: {
     });
   }
 
+  // Truncamento NUNCA é sucesso: páginas que o worker não chegou a extrair
+  // (sem linha no ledger) bloqueiam análise global e aparecem com intervalo.
+  const extracted = new Set(input.pages.map((p) => p.page));
+  const missing: number[] = [];
+  for (let page = 1; page <= input.total_pages; page++) {
+    if (!extracted.has(page)) missing.push(page);
+  }
+  let pages_never_extracted: CoverageManifest["pages_never_extracted"];
+  if (missing.length) {
+    pages_never_extracted = {
+      count: missing.length,
+      intervalo: `${missing[0]}-${missing[missing.length - 1]}`,
+    };
+    critical_gaps.push({
+      kind: "ingest_incomplete",
+      piece_type: "unknown",
+      // Só as bordas: listar milhares de páginas estouraria o payload.
+      pages: [missing[0], missing[missing.length - 1]],
+      reason: `O PDF tem ${input.total_pages} página(s) e apenas ${input.pages.length} foram extraídas — retome a ingestão.`,
+    });
+  }
+
   const warnings = critical_gaps.length
     ? ["Analise global bloqueada: ha lacunas criticas de OCR ou paginas desconhecidas nao lidas."]
     : [];
@@ -88,6 +110,7 @@ export function buildCoverageManifest(input: {
     pages_failed_permanent: pagesFailedPermanent,
     pages_ocr_stamp_only: pagesOcrStampOnly,
     pages_unknown_unread: pagesUnknownUnread,
+    pages_never_extracted,
     ocr_estimate: input.ocr_estimate,
     critical_gaps,
     global_analysis_allowed: critical_gaps.length === 0,

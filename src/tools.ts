@@ -309,7 +309,20 @@ export function makeTools(config: CaseFileConfig, deps: ToolDependencies = {}) {
     async retomar_ingestao(input: unknown) {
       const args = caseIdSchema.parse(input);
       // Valida que o caso existe ANTES de agendar (o background engole erros).
-      getStatus(config.casesDir, args.case_id);
+      const statusAtual = getStatus(config.casesDir, args.case_id);
+      // Worker comprovadamente VIVO: retomar agora só disputaria o lease
+      // (a causa raiz do "owner mismatch" de campo). Recusa com orientação.
+      if (
+        (statusAtual.status === "running" || statusAtual.status === "queued") &&
+        statusAtual.execucao &&
+        !statusAtual.execucao.includes("INATIVO")
+      ) {
+        return {
+          case_id: args.case_id,
+          status: "retomada_nao_agendada",
+          message: `Já há um worker ativo neste caso (${statusAtual.execucao}). Aguarde e consulte status_caso; retomar agora causaria disputa. Retome apenas se o status indicar worker INATIVO ou erro.`,
+        };
+      }
       // Em background: um processo grande estourava o timeout do cliente MCP
       // com a retomada síncrona (achado de campo do caso-2/TJCE).
       startIngestJobInBackground({

@@ -17,7 +17,7 @@ import type {
   OcrEstimate,
   PageLedgerEntry,
 } from "../domain/types.js";
-import { extractPdfTextByPage, type PdfPageText } from "../ingest/pdf-text.js";
+import { countPdfPages, extractPdfTextByPage, type PdfPageText } from "../ingest/pdf-text.js";
 import { OCR_PROMPT_VERSION, type GeminiOcrClient } from "../ocr/gemini-client.js";
 import { ensureSinglePagePdfInput } from "../ocr/pdf-page-input.js";
 import { runOcrForPage, type OcrPageResult } from "../ocr/ocr-service.js";
@@ -60,6 +60,7 @@ export interface ResumeIngestResult {
   resumed: boolean;
   lock_owner?: string;
   reason?: "worker_lock_live";
+  heartbeat_age_ms?: number;
 }
 
 interface CaseRunnerPaths {
@@ -150,6 +151,7 @@ export async function runIngestJob(input: RunIngestJobInput): Promise<ResumeInge
         resumed: false,
         reason: lease.reason,
         lock_owner: lease.lock_owner,
+        heartbeat_age_ms: lease.heartbeat_age_ms,
       };
     }
 
@@ -193,6 +195,22 @@ export async function runIngestJob(input: RunIngestJobInput): Promise<ResumeInge
   }
 }
 
+/** Renova o lease; se outro worker assumiu, sai como takeover (não como erro). */
+function renewOrLoseLease(input: {
+  caseDir: string;
+  store: CaseJobStore;
+  jobId: string;
+  lockOwner: string;
+}): void {
+  if (!ownsLock(input.caseDir, input.jobId, input.lockOwner)) {
+    throw new LeaseLostError();
+  }
+  renewWorkerLease({ ...input, now: new Date().toISOString() });
+}
+
+/** Heartbeat/snapshot no máximo a cada N ms durante fases longas. */
+const HEARTBEAT_EVERY_MS = 10_000;
+
 async function processCase(
   input: RunIngestJobInput,
   paths: CaseRunnerPaths,
@@ -201,7 +219,32 @@ async function processCase(
   lockOwner: string,
 ): Promise<IngestJobStatus> {
   const manifest = JSON.parse(readFileSync(paths.manifest, "utf8")) as CaseManifest;
-  const pages = await extractPdfTextByPage(manifest.source_pdf);
+
+  // Denominador AUTORITATIVO: o total real de páginas do PDF, nunca "quantas
+  // páginas já descobri". Self-heal para casos criados antes da v1.0.1.
+  let totalPagesPdf = manifest.total_pages_pdf;
+  if (!totalPagesPdf) {
+    totalPagesPdf = await countPdfPages(manifest.source_pdf);
+    writeFileSync(
+      paths.manifest,
+      JSON.stringify({ ...manifest, total_pages_pdf: totalPagesPdf }, null, 2) + "\n",
+    );
+  }
+  store.setTotalPages(jobId, totalPagesPdf);
+  store.writeSnapshots(paths.caseId);
+
+  // A extração do PDF inteiro pode levar MINUTOS num caderno grande — sem
+  // heartbeat aqui o worker vivo parecia morto e a retomada roubava o lease
+  // (a causa raiz do "owner mismatch" de campo).
+  let lastBeat = Date.now();
+  const pages = await extractPdfTextByPage(manifest.source_pdf, {
+    onPage: () => {
+      if (Date.now() - lastBeat < HEARTBEAT_EVERY_MS) return;
+      lastBeat = Date.now();
+      renewOrLoseLease({ caseDir: paths.caseDir, store, jobId, lockOwner });
+      store.writeSnapshots(paths.caseId);
+    },
+  });
   const index = await CaseIndex.open(paths.db, input.root);
   try {
     extractPhase(input, paths, store, index, jobId, lockOwner, pages);
@@ -212,7 +255,7 @@ async function processCase(
         ? await ocrPhase(input, paths, store, index, jobId, lockOwner, pages, estimate, manifest.source_pdf)
         : [];
 
-    return finalizeJob(store, paths, pages.length, ocrAlerts, index);
+    return finalizeJob(store, paths, totalPagesPdf, pages.length, ocrAlerts, index);
   } finally {
     index.close();
   }
@@ -234,14 +277,16 @@ function extractPhase(
 ): void {
   const existing = new Map(store.listPages(paths.caseId).map((entry) => [entry.page, entry]));
 
+  // Throttle: renovar lease + snapshot por PÁGINA era O(n²) de I/O num
+  // caderno de milhares de páginas (cada flush regrava o banco inteiro).
+  let lastBeat = 0;
+  let snapshotDue = false;
   for (const page of pages) {
-    renewWorkerLease({
-      caseDir: paths.caseDir,
-      store,
-      jobId,
-      lockOwner,
-      now: new Date().toISOString(),
-    });
+    if (Date.now() - lastBeat >= HEARTBEAT_EVERY_MS) {
+      lastBeat = Date.now();
+      snapshotDue = true;
+      renewOrLoseLease({ caseDir: paths.caseDir, store, jobId, lockOwner });
+    }
 
     const nativeHash = sha256(page.text);
     const prior = existing.get(page.page);
@@ -283,8 +328,14 @@ function extractPhase(
       evidence_ids: [unit.evidence_id],
       updated_at: new Date().toISOString(),
     });
-    store.writeSnapshots(paths.caseId);
+    if (snapshotDue) {
+      // Snapshot acompanha o heartbeat (~a cada 10s): progresso visível sem
+      // regravar o ledger inteiro a cada página.
+      snapshotDue = false;
+      store.writeSnapshots(paths.caseId);
+    }
   }
+  store.writeSnapshots(paths.caseId);
 }
 
 /**
@@ -581,7 +632,8 @@ async function ocrPageWithRetry(
 function finalizeJob(
   store: CaseJobStore,
   paths: CaseRunnerPaths,
-  totalPages: number,
+  totalPagesPdf: number,
+  extractedPages: number,
   ocrAlerts: string[],
   index: CaseIndex,
 ): IngestJobStatus {
@@ -589,7 +641,7 @@ function finalizeJob(
   const estimate = store.getOcrEstimate(paths.caseId);
   const coverage = buildCoverageManifest({
     case_id: paths.caseId,
-    total_pages: totalPages,
+    total_pages: totalPagesPdf,
     pages: ledger,
     ocr_estimate: estimate,
   });
@@ -600,8 +652,20 @@ function finalizeJob(
     ? [`${pendingOcr} pagina(s) precisam de OCR para leitura confiavel.`]
     : [];
   const alerts = [...pendingAlert, ...ocrAlerts, ...coverage.warnings];
+  // Cinto e suspensório: se a extração devolveu menos páginas que o PDF tem,
+  // o caso NÃO fecha como done — done truncado é a mentira que este release
+  // elimina.
+  if (extractedPages < totalPagesPdf) {
+    alerts.push(
+      `Extracao incompleta: ${extractedPages} de ${totalPagesPdf} pagina(s). Retome a ingestao.`,
+    );
+  }
   const status: IngestJobStatus =
-    estimate.requires_approval && !estimate.approved ? "paused_awaiting_ocr_approval" : "done";
+    extractedPages < totalPagesPdf
+      ? "error"
+      : estimate.requires_approval && !estimate.approved
+        ? "paused_awaiting_ocr_approval"
+        : "done";
 
   const latest = store.getLatestJob(paths.caseId);
   if (latest) {

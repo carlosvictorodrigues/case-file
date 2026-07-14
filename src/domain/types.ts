@@ -37,6 +37,8 @@ export interface CaseManifest {
   area: "civil";
   source_pdf: string;
   created_at: string;
+  /** Total REAL de páginas do PDF (numPages) — denominador autoritativo. */
+  total_pages_pdf?: number;
 }
 
 export type IngestJobStatus =
@@ -108,7 +110,10 @@ export interface OcrEstimate {
 }
 
 export interface CriticalGap {
-  kind: "critical_piece_incomplete" | "unknown_unread_potentially_critical";
+  kind:
+    | "critical_piece_incomplete"
+    | "unknown_unread_potentially_critical"
+    | "ingest_incomplete";
   piece_type: PieceType;
   pages: number[];
   reason: string;
@@ -126,6 +131,8 @@ export interface CoverageManifest {
   /** OCR devolveu só carimbos do PJe: conteúdo da página não transcrito. */
   pages_ocr_stamp_only: number[];
   pages_unknown_unread: number[];
+  /** Páginas do PDF que a ingestão NUNCA extraiu (worker morreu antes). */
+  pages_never_extracted?: { count: number; intervalo: string };
   ocr_estimate: OcrEstimate;
   critical_gaps: CriticalGap[];
   global_analysis_allowed: boolean;

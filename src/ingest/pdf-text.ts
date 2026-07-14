@@ -30,7 +30,37 @@ export function resolveStandardFontDataUrl(pdfjsPackageJson: string): string {
 
 export const standardFontDataUrl = resolveStandardFontDataUrl(pdfjsPackageJsonPath);
 
-export async function extractPdfTextByPage(pdfPath: string): Promise<PdfPageText[]> {
+/**
+ * Número REAL de páginas do PDF — a verdade autoritativa do denominador.
+ * Persistida na criação do caso: sem ela, "processadas == descobertas"
+ * mascara truncamento como cobertura completa (incidente caso-3: worker
+ * morto na pág. 2.485 de 8.405 reportava 2.485/2.485 "completo").
+ */
+export async function countPdfPages(pdfPath: string): Promise<number> {
+  const data = new Uint8Array(readFileSync(pdfPath));
+  const loadingTask = pdfjs.getDocument({
+    data,
+    standardFontDataUrl,
+    useWorkerFetch: false,
+    isEvalSupported: false,
+  } as Parameters<typeof pdfjs.getDocument>[0] & { isEvalSupported: boolean });
+  const doc = await loadingTask.promise;
+  try {
+    return doc.numPages;
+  } finally {
+    await loadingTask.destroy();
+  }
+}
+
+export interface ExtractPdfOptions {
+  /** Chamado após cada página extraída — usado p/ heartbeat do lease. */
+  onPage?: (pageNo: number, totalPages: number) => void;
+}
+
+export async function extractPdfTextByPage(
+  pdfPath: string,
+  options: ExtractPdfOptions = {},
+): Promise<PdfPageText[]> {
   const data = new Uint8Array(readFileSync(pdfPath));
   const loadingTaskOptions = {
     data,
@@ -62,6 +92,7 @@ export async function extractPdfTextByPage(pdfPath: string): Promise<PdfPageText
         text,
         needs_ocr: text.length < 20
       });
+      options.onPage?.(pageNo, doc.numPages);
     }
 
     return pages;
