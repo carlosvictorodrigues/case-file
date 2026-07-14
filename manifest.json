@@ -2,7 +2,7 @@
   "manifest_version": "0.4",
   "name": "case-file",
   "display_name": "Case File",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Leia e consulte processos judiciais direto no seu computador: respostas com o documento e a pagina de origem de cada informacao, linha do tempo, quadro de controversias e relatorios prontos em Word. O processo nunca sai da sua maquina.",
   "author": {
     "name": "Case File"
@@ -31,7 +31,7 @@
     }
   },
   "tools": [
-    { "name": "criar_caso_local", "description": "Cria um workspace local a partir de um PDF dentro da pasta autorizada." },
+    { "name": "criar_caso_local", "description": "Cria um workspace local a partir de um PDF dentro da pasta autorizada; aceita area civel (default) ou penal." },
     { "name": "status_caso", "description": "Mostra progresso e alertas de ingestao local." },
     { "name": "listar_casos", "description": "Lista os casos da pasta autorizada (partes, paginas, estado, dossie)." },
     { "name": "case_file", "description": "Retorna mapa compacto do caso, sem paginas inteiras." },
@@ -50,7 +50,7 @@
     { "name": "retomar_ingestao", "description": "Retoma o worker local de ingestao quando o cliente reinicia, a chave Gemini passa a existir ou o OCR foi aprovado." },
     { "name": "autorizar_ocr", "description": "Autoriza OCR BYOK com limites explicitos de paginas e chamadas." },
     { "name": "analisar_radar_processual_civel", "description": "Gera apontamentos processuais civeis candidatos, com prazo de referencia da tabela curada e sem conclusao final de prazo." },
-    { "name": "consultar_prazos_referencia", "description": "Tabela local curada de prazos civeis (CPC) com base legal." },
+    { "name": "consultar_prazos_referencia", "description": "Tabelas locais curadas de prazos de referencia com base legal: civel (CPC) e penal (CPP e leis especiais)." },
     { "name": "analisar_caso_civel", "description": "Macro local que combina cobertura, radar e pacote de evidencias com lacunas explicitas." },
     { "name": "registrar_jurisprudencia", "description": "Registra no caso os doc_ids reais retornados pelo MCP de jurisprudencia conectado." },
     { "name": "verificar_referencias", "description": "Valida evidence_ids e doc_ids registrados antes de relatorio final." }

@@ -689,6 +689,19 @@ function finalizeJob(
   // caso NÃO fecha como done — done truncado é a mentira que se eliminou.
   // (Comparar pelo ledger, não pela extração desta run: a retomada pula
   // páginas já lidas de propósito.)
+  // Caso criado como cível mas com peças inequivocamente penais no ledger:
+  // avisa para recriar com area='penal' (eixos acusação×defesa + tabela CPP).
+  const manifestArea = (JSON.parse(readFileSync(paths.manifest, "utf8")) as CaseManifest).area;
+  if (
+    manifestArea !== "penal" &&
+    ledger.some(
+      (entry) => entry.piece_type === "denuncia" || entry.piece_type === "resposta_acusacao",
+    )
+  ) {
+    alerts.push(
+      "Sinais de processo PENAL no caderno (denúncia/resposta à acusação). O caso foi criado como cível — para eixos de acusação×defesa e prazos do CPP, recrie com area='penal' (ou siga ciente de que o radar cível não se aplica).",
+    );
+  }
   const covered = ledger.length;
   if (covered < totalPagesPdf) {
     alerts.push(
@@ -749,6 +762,7 @@ function writeCaseFile(
   const statusPath = join(paths.caseDir, "status.json");
   const status = JSON.parse(readFileSync(statusPath, "utf8")) as { needs_ocr_pages: number[] };
   const units = index.listUnits();
+  const manifest = JSON.parse(readFileSync(paths.manifest, "utf8")) as CaseManifest;
   const facts = extractCaseHeaderFacts(units);
   const events = reconcileCivilEvents(
     paths.caseId,
@@ -776,6 +790,7 @@ function writeCaseFile(
           facts,
           ledger,
           events,
+          area: manifest.area,
         }),
         partes: facts.partes,
         valor_causa: facts.valor_causa,

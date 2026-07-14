@@ -17,6 +17,8 @@ export type IngestStartMode = "inline" | "background";
 export interface IngestCaseOptions {
   startMode?: IngestStartMode;
   geminiApiKey?: string;
+  /** Área do processo; define eixos do quadro e a tabela de prazos. */
+  area?: "civil" | "penal";
   ocr?: OcrRuntimeOptions;
 }
 
@@ -47,7 +49,7 @@ export async function createCaseJob(
   }
   const manifest: CaseManifest = {
     case_id: ws.caseId,
-    area: "civil",
+    area: options.area ?? "civil",
     source_pdf: ws.paths.sourcePdf,
     created_at: now,
     total_pages_pdf: totalPagesPdf || undefined,

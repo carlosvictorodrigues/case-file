@@ -28,20 +28,31 @@ export interface PrazosCiveisFile {
   prazos: PrazoReferencia[];
 }
 
-let cache: PrazosCiveisFile | undefined;
+export type TabelaPrazos = "civel" | "penal";
+
+const caches = new Map<TabelaPrazos, PrazosCiveisFile>();
+
+function loadTabela(tabela: TabelaPrazos): PrazosCiveisFile {
+  const cached = caches.get(tabela);
+  if (cached) return cached;
+  const path = join(
+    dirname(fileURLToPath(import.meta.url)),
+    "..",
+    "..",
+    "data",
+    tabela === "penal" ? "prazos-penal.json" : "prazos-civel.json",
+  );
+  const file = JSON.parse(readFileSync(path, "utf8")) as PrazosCiveisFile;
+  caches.set(tabela, file);
+  return file;
+}
 
 export function loadPrazosCiveis(): PrazosCiveisFile {
-  if (!cache) {
-    const path = join(
-      dirname(fileURLToPath(import.meta.url)),
-      "..",
-      "..",
-      "data",
-      "prazos-civel.json",
-    );
-    cache = JSON.parse(readFileSync(path, "utf8")) as PrazosCiveisFile;
-  }
-  return cache;
+  return loadTabela("civel");
+}
+
+export function loadPrazosPenais(): PrazosCiveisFile {
+  return loadTabela("penal");
 }
 
 // Mapa CONSERVADOR evento-do-radar → entrada da tabela. Só ligamos o que o
@@ -75,13 +86,17 @@ export function prazoParaEventoRadar(tipoEvento: string): PrazoRadar | undefined
   };
 }
 
-export function consultarPrazos(filtroAto?: string): {
+export function consultarPrazos(
+  filtroAto?: string,
+  tabela: TabelaPrazos = "civel",
+): {
+  tabela: TabelaPrazos;
   versao: string;
   escopo: string;
   total: number;
   prazos: PrazoReferencia[];
 } {
-  const file = loadPrazosCiveis();
+  const file = loadTabela(tabela);
   const folded = filtroAto ? foldText(filtroAto) : undefined;
   const prazos = folded
     ? file.prazos.filter(
@@ -91,5 +106,5 @@ export function consultarPrazos(filtroAto?: string): {
           foldText(prazo.base_legal ?? "").includes(folded),
       )
     : file.prazos;
-  return { versao: file.versao, escopo: file.escopo, total: prazos.length, prazos };
+  return { tabela, versao: file.versao, escopo: file.escopo, total: prazos.length, prazos };
 }

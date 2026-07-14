@@ -32,9 +32,11 @@ export interface EvidenceUnit {
   ocr?: OcrMetadata;
 }
 
+export type CaseArea = "civil" | "penal";
+
 export interface CaseManifest {
   case_id: string;
-  area: "civil";
+  area: CaseArea;
   source_pdf: string;
   created_at: string;
   /** Total REAL de páginas do PDF (numPages) — denominador autoritativo. */
@@ -67,6 +69,10 @@ export type PieceType =
   | "decisao"
   | "sentenca"
   | "recurso"
+  | "denuncia"
+  | "resposta_acusacao"
+  | "alegacoes_finais"
+  | "laudo"
   | "comprovante"
   | "procuracao"
   | "documento_pessoal"

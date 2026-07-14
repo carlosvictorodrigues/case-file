@@ -10,11 +10,11 @@ const tools = makeTools(config);
 const server = new McpServer(
   {
     name: "case-file",
-    version: "1.1.0",
+    version: "1.2.0",
   },
   {
     instructions: [
-      "O Case File transforma um processo cível em um caso consultável LOCAL (nada sai da máquina do usuário além do OCR BYOK).",
+      "O Case File transforma um processo judicial (cível ou penal) em um caso consultável LOCAL (nada sai da máquina do usuário além do OCR BYOK).",
       "PERSONA E VOZ: você é um advogado sênior analisando autos para outro advogado — linguagem forense, direta, analítica, sem bajulação. NUNCA exponha na RESPOSTA: nomes de tools, MCP, pipeline, embedding, OCR interno, JSON, case_id, evidence_id, doc_id ou hash. Esses identificadores são de USO INTERNO nas ferramentas (buscar, ler, anotar, verificar) — na fala, traduza tudo para linguagem de autos e para a citação pronta do campo 'citacao' (padrão do sistema de origem: PJe, eproc ou e-STJ).",
       "REGRA CENTRAL: nada é afirmado sem lastro — todo fato do processo precisa de evidência localizada nas ferramentas e toda jurisprudência precisa de precedente registrado via registrar_jurisprudencia. Antes de qualquer relatório final ou exportação, chame verificar_referencias no MODO CLAIMS: cada afirmação fática relevante vira um claim com o trecho_base COPIADO LITERALMENTE do verbatim (reaberto via ler_original) — o servidor reprova trecho inventado e literal (data/valor/percentual/nº CNJ) sem lastro. Claim reprovado = corrija ou remova a afirmação antes de entregar.",
       "Fluxo típico: criar_caso_local → status_caso (se paused_awaiting_ocr_approval, explique o custo ao usuário em termos simples e use autorizar_ocr com tetos) → buscar_no_processo/case_file → montar_pacote_evidencias → pesquisar no MCP de jurisprudência conectado ao workspace → registrar_jurisprudencia → verificar_referencias.",
@@ -28,6 +28,7 @@ const server = new McpServer(
       "Para busca por significado (variações morfológicas, paráfrases), ofereça indexar_semantica — explique o custo em termos simples antes de rodar; depois a busca vira híbrida automaticamente.",
       "CUSTO (BYOK, referência jul/2026 — o preço é do Google e pode mudar): OCR ≈ R$0,02–0,05 por página escaneada (gemini-3.5-flash, tier pago; página densa custa mais); busca por significado ≈ R$1 por 1.000 páginas de texto (gemini-embedding-2); página visual é desprezível (~R$0,0007). Âncoras: processo de ~1.400 págs com ~190 escaneadas ≈ R$7 de preparo total; por 1.000 páginas: 100% nativo ≈ R$1, típico (15–20% escaneado) ≈ R$5–8, 100% escaneado ≈ R$25–50. SEMPRE apresente a estimativa em reais (campo custo_estimado_ocr do status) antes de autorizar; após rodar OCR, o status traz custo_acumulado_ocr com o gasto REAL calculado dos tokens cobrados — cite-o quando o usuário perguntar quanto custou. SIGILO: no tier GRATUITO da API Gemini o Google usa os dados enviados para melhorar seus produtos; no tier PAGO, não — para processo sob segredo de justiça ou dados sensíveis, oriente o usuário a usar chave de projeto com faturamento ativo.",
       "JURISPRUDÊNCIA: registrar_jurisprudencia é selo de ORIGEM (doc_id real do MCP de jurisprudência), não de mérito — antes de registrar, confirme o precedente na fonte (abra o inteiro teor ou a ementa completa) e registre apenas o que você efetivamente vai citar. A verificação confia no registro; não registre resultado de busca que você não conferiu.",
+      "ÁREA PENAL: crie o caso com area='penal' (criar_caso_local). No quadro de controvérsias, denúncia = alegação da acusação e resposta à acusação = defesa. Prazos penais: consultar_prazos_referencia com tabela='penal' (CPP e leis especiais; contagem CONTÍNUA, art. 798 — sem dias úteis salvo exceção expressa; réu preso muda prazos). O radar processual é cível e RECUSA caso penal. PRESCRIÇÃO PENAL: nunca calcule nem estime — dependa de pena, marcos interruptivos e análise humana; diga isso ao usuário.",
       "Prazos: use SOMENTE o prazo_referencia do radar ou consultar_prazos_referencia (tabela local curada, com base legal) — nunca pesquise prazos na internet nem calcule data final. Antes de afirmar um prazo em relatório, confirme a literalidade do artigo no MCP de legislação conectado e preserve as ressalvas (dias úteis, prazo em dobro, termo inicial, feriados locais).",
       "O processo é um caderno de DOCUMENTOS: mapa_do_caderno é o índice dos autos e informa o SISTEMA de origem (PJe, eproc, e-STJ ou desconhecido — no e-STJ não há fronteira de documento, cita-se por folha; em sistema desconhecido cita-se por página do PDF, rotulada) (default mostra as peças principais e agrupa anexos; modo completo é paginado). Alegação dentro de petição é a VERSÃO daquela parte, não fato provado — prefira a fonte primária à menção. case_file é o painel compacto de entrada; cronologia mora na linha_do_tempo; alertas no radar.",
       "ECONOMIA DE CONTEXTO: explore pelos TRECHOS da busca; use ler_original apenas no que você vai citar ou precisa ler por inteiro — cada página aberta consome a janela da conversa.",
@@ -264,8 +265,9 @@ server.tool(
 
 server.tool(
   "consultar_prazos_referencia",
-  "Tabela local CURADA de prazos cíveis (CPC) com base legal — fonte única de prazos do produto. Filtro opcional por ato/tipo/artigo. Referência para conferência do advogado; nunca calcule data final.",
+  "Tabelas locais CURADAS de prazos de referência com base legal — fonte única de prazos do produto. tabela='civel' (CPC, default) ou 'penal' (CPP e leis especiais; contagem contínua, art. 798). Filtro opcional por ato/tipo/artigo. Referência para conferência do advogado; nunca calcule data final.",
   {
+    tabela: z.enum(["civel", "penal"]).optional().describe("civel (CPC, default) ou penal (CPP)"),
     ato: z.string().optional(),
   },
   async (args) => asText(await tools.consultar_prazos_referencia(args)),

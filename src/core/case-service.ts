@@ -69,6 +69,15 @@ function readOptionalJson<T>(path: string): T | undefined {
   return existsSync(path) ? readJson<T>(path) : undefined;
 }
 
+/** Área do caso (civil default para casos criados antes da v1.2). */
+function caseArea(root: string, caseId: string): "civil" | "penal" {
+  const normalized = stableCaseId(caseId);
+  const manifest = readOptionalJson<CaseManifest>(
+    join(root, normalized, "case.json"),
+  );
+  return manifest?.area === "penal" ? "penal" : "civil";
+}
+
 /**
  * Faixa de custo do OCR por página escaneada em R$ (gemini-3.5-flash, tier
  * PAGO; a saída da transcrição domina o custo). Referência jul/2026 — o
@@ -379,6 +388,9 @@ const PECAS_PROCESSUAIS = new Set([
   "decisao",
   "sentenca",
   "recurso",
+  "denuncia",
+  "resposta_acusacao",
+  "alegacoes_finais",
 ]);
 
 export interface TimelineEntry {
@@ -1140,17 +1152,22 @@ export async function mapearControversias(
   aviso?: string;
 }> {
   const paths = casePaths(root, caseId);
+  const area = caseArea(root, paths.caseId);
   const mapa = loadDocumentMap(root, paths.caseId);
   const limitPorTema = Math.min(Math.max(1, options.limitPorTema ?? 4), 10);
   const incluirPrimarias = options.incluirFontesPrimarias ?? true;
 
   // Peças por papel, a partir do tipo classificado no mapa do caderno.
+  // Penal: denúncia ocupa o eixo da alegação inicial (acusação) e a resposta
+  // à acusação o eixo da defesa — mesmos buckets, semântica traduzida no aviso.
   const papelPorTipo: Record<string, keyof Omit<TemaControversia, "tema" | "lacunas">> = {
     inicial: "inicial",
     contestacao: "contestacao",
     replica: "replica",
     decisao: "atos_judiciais",
     sentenca: "atos_judiciais",
+    denuncia: "inicial",
+    resposta_acusacao: "contestacao",
   };
   const tipoFontePorPapel: Record<string, OcorrenciaControversia["tipo_fonte"]> = {
     inicial: "alegacao_autor",
@@ -1241,7 +1258,9 @@ export async function mapearControversias(
     pecas_identificadas: pecasIdentificadas,
     temas: resultado,
     aviso_pareamento:
-      "Candidatos agrupados por peça de origem; o pareamento alegação↔impugnação e a conclusão jurídica cabem a você. Grupo vazio = 'não localizei impugnação específica', nunca 'não existe'.",
+      area === "penal"
+        ? "Caso PENAL: o eixo 'inicial' recebe a DENÚNCIA (acusação) e 'contestacao' a RESPOSTA À ACUSAÇÃO (defesa); alegações finais não entram nos eixos — busque-as por tema. O pareamento acusação↔defesa e a conclusão jurídica cabem a você. Grupo vazio = 'não localizei', nunca 'não existe'."
+        : "Candidatos agrupados por peça de origem; o pareamento alegação↔impugnação e a conclusão jurídica cabem a você. Grupo vazio = 'não localizei impugnação específica', nunca 'não existe'.",
     aviso:
       mapa && mapa.total_documentos > 0
         ? undefined
@@ -1422,6 +1441,20 @@ export async function analyzeCivilRadar(
   lado: "autor" | "reu",
 ): Promise<CivilProceduralRadar> {
   const paths = casePaths(root, caseId);
+  // Radar parte de premissas CÍVEIS (CPC). Em caso penal, chutar prazo ou
+  // oportunidade custa liberdade — recusa explícita vale mais que palpite.
+  if (caseArea(root, paths.caseId) === "penal") {
+    return {
+      case_id: paths.caseId,
+      generated_at: new Date().toISOString(),
+      coverage: { global_analysis_allowed: false, critical_gaps: 0 },
+      prazos_candidatos: [],
+      oportunidades: [],
+      lacunas: [
+        "Caso PENAL: o radar processual desta versão parte de premissas cíveis (CPC) e NÃO se aplica. Use consultar_prazos_referencia com tabela='penal' (CPP, referência com base legal). Prescrição penal está fora do escopo: exige análise humana (pena, marcos interruptivos).",
+      ],
+    };
+  }
   const units = await evidenceUnitsFromLedger(root, paths.caseId);
   const rawEvents = extractCivilEvents({ caseId: paths.caseId, units });
   const events = reconcileCivilEvents(paths.caseId, rawEvents);

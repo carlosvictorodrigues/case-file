@@ -16,6 +16,11 @@ export interface PieceClassification {
 }
 
 const PATTERNS: Array<[PieceType, RegExp]> = [
+  // Penal ANTES do cível genérico: "denuncia" não pode cair em "inicial".
+  ["denuncia", /\bdenuncia\b/i],
+  ["resposta_acusacao", /\bresposta a acusacao\b/i],
+  ["alegacoes_finais", /\b(alegacoes finais|memoriais)\b/i],
+  ["laudo", /\blaudo (pericial|de exame|toxicologico|cadaverico|necroscopico)\b/i],
   ["inicial", /\b(peticao inicial|inicial)\b/i],
   // "replica" antes de "contestacao": a impugnação à contestação cita a palavra
   // "contestacao" e seria engolida pelo padrão mais genérico.
@@ -62,7 +67,18 @@ export function classifyCivilPiece(input: PieceClassificationInput): PieceClassi
 
 export function isPotentiallyCritical(pieceType: PieceType, opts: { unread: boolean }): boolean {
   if (opts.unread && pieceType === "unknown") return true;
-  return ["inicial", "contestacao", "replica", "decisao", "sentenca", "recurso"].includes(
+  return [
+    "inicial",
+    "contestacao",
+    "replica",
+    "decisao",
+    "sentenca",
+    "recurso",
+    "denuncia",
+    "resposta_acusacao",
+    "alegacoes_finais",
+    "laudo",
+  ].includes(
     pieceType,
   );
 }

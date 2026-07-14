@@ -14,9 +14,13 @@ export interface CaseHeaderFacts {
 }
 
 const AUTHOR_LABEL_RE =
-  /\b(?:AUTOR(?:A)?|REQUERENTE|EXEQUENTE|RECLAMANTE|IMPETRANTE)\s*[:\-–]\s*([^\n,;]{3,80})/iu;
+  /\b(?:AUTOR(?:A)?|REQUERENTE|EXEQUENTE|RECLAMANTE|IMPETRANTE|QUERELANTE)\s*[:\-–]\s*([^\n,;]{3,80})/iu;
 const DEFENDANT_LABEL_RE =
-  /\b(?:R[ÉE]U?S?|R[ÉE]|REQUERID[OA]S?|EXECUTAD[OA]S?|RECLAMAD[OA]S?|IMPETRAD[OA]S?)\s*[:\-–]\s*([^\n,;]{3,80})/iu;
+  /\b(?:R[ÉE]U?S?|R[ÉE]|REQUERID[OA]S?|EXECUTAD[OA]S?|RECLAMAD[OA]S?|IMPETRAD[OA]S?|DENUNCIAD[OA]S?|ACUSAD[OA]S?|QUERELAD[OA]S?|INDICIAD[OA]S?|INVESTIGAD[OA]S?)\s*[:\-–]\s*([^\n,;]{3,80})/iu;
+// Ação penal pública: o autor é o MP, que raramente aparece com rótulo
+// "AUTOR:" — detecta pela combinação MP + denúncia na mesma página.
+const MP_DENUNCIA_RE = /MINIST[ÉE]RIO\s+P[ÚU]BLICO/iu;
+const DENUNCIA_RE = /\bDEN[ÚU]NCIA\b/iu;
 const EM_FACE_DE_RE = /\bem\s+face\s+d[eao]s?\s+([A-ZÀ-Ú][^,;.\n]{2,79})/u;
 // Só sequências de palavras em CAIXA ALTA (com conectores DA/DE/DOS): é como
 // nomes de parte aparecem em petição, e evita engolir texto corrido em volta
@@ -30,7 +34,7 @@ const VALOR_CAUSA_RE = /valor\s+da\s+causa[^\dR$]{0,30}R?\$?\s*([\d][\d. ]*,\d{
 // TJRJ), e "REQUERIDO: EMPRESA S/A DESPACHO" colava o título da seção.
 // Cortamos o nome no próximo rótulo de parte/seção em CAIXA ALTA.
 const NEXT_LABEL_RE =
-  /\s+(?:(?:AUTOR(?:A)?S?|REQUERENTES?|EXEQUENTES?|RECLAMANTES?|IMPETRANTES?|R[ÉE]US?|REQUERID[OA]S?|EXECUTAD[OA]S?|RECLAMAD[OA]S?|IMPETRAD[OA]S?|INTERESSAD[OA]S?|ADVOGAD[OA]S?|DESPACHO|DECIS[ÃA]O|SENTEN[ÇC]A|CERTID[ÃA]O|INTIMA[ÇC][ÃA]O|CONCLUS[ÃA]O)\b(?=\s*[:\-–]|\s|$)|R[ÉE]\b(?=\s*[:\-–]))/u;
+  /\s+(?:(?:AUTOR(?:A)?S?|REQUERENTES?|EXEQUENTES?|RECLAMANTES?|IMPETRANTES?|QUERELANTES?|R[ÉE]US?|REQUERID[OA]S?|EXECUTAD[OA]S?|RECLAMAD[OA]S?|IMPETRAD[OA]S?|DENUNCIAD[OA]S?|ACUSAD[OA]S?|QUERELAD[OA]S?|INDICIAD[OA]S?|INVESTIGAD[OA]S?|V[ÍI]TIMAS?|INTERESSAD[OA]S?|ADVOGAD[OA]S?|DESPACHO|DECIS[ÃA]O|SENTEN[ÇC]A|CERTID[ÃA]O|INTIMA[ÇC][ÃA]O|CONCLUS[ÃA]O)\b(?=\s*[:\-–]|\s|$)|R[ÉE]\b(?=\s*[:\-–]))/u;
 
 function cleanName(raw: string): string {
   const collapsed = raw.replace(/\s+/g, " ").trim();
@@ -71,6 +75,15 @@ export function extractCaseHeaderFacts(units: EvidenceUnit[]): CaseHeaderFacts {
         confianca: 0.9,
       });
     }
+    if (MP_DENUNCIA_RE.test(text) && DENUNCIA_RE.test(text)) {
+      propose({
+        papel: "autor",
+        nome: "MINISTÉRIO PÚBLICO",
+        evidence_id: unit.evidence_id,
+        confianca: 0.7,
+      });
+    }
+
     const defendantLabel = text.match(DEFENDANT_LABEL_RE);
     if (defendantLabel) {
       propose({
@@ -110,6 +123,10 @@ export function extractCaseHeaderFacts(units: EvidenceUnit[]): CaseHeaderFacts {
 }
 
 const PIECE_LABELS: Record<string, string> = {
+  denuncia: "denúncia",
+  resposta_acusacao: "resposta à acusação",
+  alegacoes_finais: "alegações finais",
+  laudo: "laudo",
   inicial: "petição inicial",
   contestacao: "contestação",
   replica: "réplica",
@@ -138,8 +155,10 @@ export function buildStructuralSummary(input: {
   facts: CaseHeaderFacts;
   ledger: PageLedgerEntry[];
   events: CivilEvent[];
+  area?: "civil" | "penal";
 }): string {
-  const parts: string[] = [`Processo cível com ${input.totalPages} página(s).`];
+  const rotulo = input.area === "penal" ? "penal" : "cível";
+  const parts: string[] = [`Processo ${rotulo} com ${input.totalPages} página(s).`];
 
   const autor = input.facts.partes.find((parte) => parte.papel === "autor");
   const reu = input.facts.partes.find((parte) => parte.papel === "reu");

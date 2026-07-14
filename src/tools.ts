@@ -46,7 +46,7 @@ export interface ToolDependencies {
 
 const createCaseSchema = z.object({
   pdf_path: z.string(),
-  area: z.literal("civil").default("civil"),
+  area: z.enum(["civil", "penal"]).default("civil"),
   slug: z.string().optional(),
 });
 const caseIdSchema = z.object({ case_id: z.string() });
@@ -78,6 +78,7 @@ const bundleSchema = z.object({
   dados_pessoais_adicionais: z.array(z.string()).optional(),
 });
 const consultarPrazosSchema = z.object({
+  tabela: z.enum(["civel", "penal"]).default("civel"),
   ato: z.string().optional(),
 });
 const mapaCadernoSchema = z.object({
@@ -185,6 +186,7 @@ export function makeTools(config: CaseFileConfig, deps: ToolDependencies = {}) {
       return createCaseJob(config.casesDir, args.pdf_path, args.slug, {
         startMode: deps.workerStartMode ?? "background",
         geminiApiKey: config.geminiApiKey,
+        area: args.area,
         ocr: ocrOptions(config),
       });
     },
@@ -379,7 +381,7 @@ export function makeTools(config: CaseFileConfig, deps: ToolDependencies = {}) {
 
     async consultar_prazos_referencia(input: unknown) {
       const args = consultarPrazosSchema.parse(input);
-      return consultarPrazos(args.ato);
+      return consultarPrazos(args.ato, args.tabela);
     },
 
     async registrar_jurisprudencia(input: unknown) {
