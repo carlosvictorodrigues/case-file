@@ -10,7 +10,7 @@ const tools = makeTools(config);
 const server = new McpServer(
   {
     name: "case-file",
-    version: "1.3.0",
+    version: "1.3.1",
   },
   {
     instructions: [

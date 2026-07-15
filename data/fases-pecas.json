@@ -1,9 +1,9 @@
 {
-  "versao": "2026-07-15.1",
+  "versao": "2026-07-16.1",
   "escopo": "Fase processual → peças de REFERÊNCIA tipicamente cabíveis (cível CPC / penal CPP e leis especiais), com base legal e condição de cabimento. Candidatos para conferência do advogado — nunca ordem de protocolo nem cálculo de data. Prescrição penal fora do escopo.",
   "fontes_curadoria": [
     "Curadoria multi-agente (jul/2026): 4 pesquisadores (lentes estrutura do código + prática forense, cível e penal), verificação adversarial 1-por-entrada com checagem da literalidade dos artigos na base de legislação Jusratio",
-    "107 entradas aprovadas; 2 reprovadas/descartadas; entradas cuja verificação não concluiu foram EXCLUÍDAS (conservador)"
+    "Passada complementar (16/07/2026): 10 peças penais verificadas e incluídas; 0 reprovadas"
   ],
   "fases": [
     {
@@ -547,6 +547,12 @@
           "base_legal": "Arts. 30 e 44 do CPP",
           "quando": "em ação penal privada (exclusiva, personalíssima ou subsidiária da pública — art. 29 do CPP), se o ofendido, seu representante legal ou, em caso de morte, cônjuge/ascendente/descendente/irmão (art. 31 do CPP) quer processar o querelado",
           "observacoes": "Exige procuração com poderes especiais contendo o nome do querelante e a menção do fato criminoso (Art. 44 do CPP) — a omissão é causa recorrente de rejeição. Prazo decadencial de referência: 6 meses do conhecimento da autoria (Art. 38, caput, do CPP); 12 meses em crimes de violência doméstica e familiar contra a mulher (Art. 38, §2º); na subsidiária, conta do esgotamento do prazo para a denúncia. Atenção à indivisibilidade (Art. 48 do CPP): a queixa contra um autor obriga ao processo de todos, sob fiscalização do MP."
+        },
+        {
+          "peca": "Exceções (incompetência, suspeição, litispendência, ilegitimidade, coisa julgada)",
+          "base_legal": "Arts. 95 a 112 e art. 396-A, §1º, do CPP",
+          "quando": "no prazo da resposta à acusação, em peça apartada (art. 396-A, §1º, CPP), quando presente vício processual dilatório ou peremptório; peremptórias (litispendência, coisa julgada) e incompetência absoluta são cognoscíveis a qualquer tempo",
+          "observacoes": "Processadas em autos apartados e, em regra, sem suspender o andamento da ação penal (art. 111 do CPP). A incompetência relativa não arguida no momento oportuno preclui; a absoluta pode ser reconhecida a qualquer tempo. A suspeição deve ser arguida na primeira oportunidade após conhecida a causa, sob pena de preclusão. Contagem de prazo conforme art. 798 do CPP (contínua e peremptória) — conferir termo inicial e regime aplicável no caso concreto; réu preso não altera o cabimento da exceção."
         }
       ]
     },
@@ -621,6 +627,12 @@
           "base_legal": "Art. 149 do CPP",
           "quando": "se há dúvida razoável sobre a integridade mental do acusado ao tempo do fato ou no curso do processo",
           "observacoes": "Pode ser suscitado por qualquer das partes, pelo juiz de ofício ou até pela autoridade policial (Art. 149, § 1º). Suspende o processo (Art. 149, § 2º), salvo diligências urgentes."
+        },
+        {
+          "peca": "Requerimento de habilitação como assistente de acusação",
+          "base_legal": "Arts. 268 a 270 do CPP",
+          "quando": "após o recebimento da denúncia e antes do trânsito em julgado, quando o ofendido (ou sucessores) quer atuar ao lado do MP",
+          "observacoes": "Cabível apenas em ação penal pública. O MP é ouvido previamente (Art. 272 do CPP). Poderes do assistente listados no Art. 271 do CPP."
         }
       ]
     },
@@ -665,6 +677,36 @@
           "base_legal": "Art. 387, §2º, do CPP e Art. 42 do CP",
           "quando": "se houve condenação e o réu cumpriu prisão cautelar ou internação a ser computada para fins de fixação do regime inicial",
           "observacoes": "O cômputo pelo juiz sentenciante limita-se à determinação do regime inicial; a detração ampla segue sendo atribuição do juízo da execução (Art. 66, III, c, da LEP)."
+        },
+        {
+          "peca": "Pedido de direito de recorrer em liberdade / revisão da prisão na sentença",
+          "base_legal": "Art. 387, § 1º, do CPP (c/c arts. 312 e 283 do CPP)",
+          "quando": "se houve condenação e o juiz manteve ou decretou prisão sem fundamentação cautelar concreta",
+          "observacoes": "O juiz deve decidir motivadamente, na sentença, sobre manutenção ou imposição de preventiva; ausentes os requisitos do art. 312 do CPP, o condenado apela solto (art. 283 do CPP). Ressalvas: no Tribunal do Júri, condenação a pena igual ou superior a 15 anos autoriza execução imediata (art. 492, I, \"e\", do CPP — STF, Tema 1068), esvaziando o pedido nessa hipótese; réu que respondeu preso pode ter a preventiva mantida se subsistirem, com motivação concreta, os requisitos do art. 312. O pedido pode ser formulado na resposta/memorial, por petição avulsa pós-sentença ou como preliminar da apelação, sem prejuízo de habeas corpus. Ferramenta não conclui prazo: eventual prazo recursal correlato segue a contagem contínua do art. 798 do CPP, a conferir pelo advogado."
+        },
+        {
+          "peca": "Requerimento de substituição da pena privativa por restritivas de direitos",
+          "base_legal": "Art. 44 do CP",
+          "quando": "se houve condenação a pena não superior a 4 anos por crime cometido sem violência ou grave ameaça à pessoa, OU condenação por crime culposo qualquer que seja a pena (art. 44, I); réu não reincidente em crime doloso (art. 44, II, mitigado pelo § 3º para reincidência não específica quando socialmente recomendável); e circunstâncias judiciais favoráveis (art. 44, III)",
+          "observacoes": "Análise obrigatória na sentença (art. 59, IV, do CP); a omissão pode ser suprida por embargos de declaração ou apelação. Alternativa subsidiária: suspensão condicional da pena (sursis), Art. 77 do CP — pena não superior a 2 anos, cabível apenas quando não indicada ou incabível a substituição (art. 77, III); há ainda o sursis etário/humanitário para pena até 4 anos (maior de 70 anos ou razões de saúde, art. 77, § 2º). Requisitos e quantum devem ser conferidos pelo advogado no caso concreto."
+        },
+        {
+          "peca": "Embargos de declaração",
+          "base_legal": "Art. 382 do CPP",
+          "quando": "se a sentença contém ambiguidade, obscuridade, contradição ou omissão",
+          "observacoes": "Prazo de referência: 2 dias (Art. 382 do CPP; contra acórdão, Art. 619 do CPP). Contagem CONTÍNUA do Art. 798 do CPP — não se aplica o regime de dias úteis do CPC; exclui-se o dia do começo e inclui-se o do vencimento (Art. 798, § 1º). Legitimidade: qualquer das partes; Defensoria Pública tem prazo em dobro (Art. 44, I, da LC 80/94). Em regra interrompem o prazo dos demais recursos para ambas as partes (aplicação subsidiária do Art. 1.026 do CPC, via Art. 3º do CPP — orientação do STJ); embargos intempestivos não interrompem. Atenção à preclusão: prazo exíguo e peremptório. Prazos de referência para conferência pelo advogado — a ferramenta não conclui prazo nem data."
+        },
+        {
+          "peca": "Pedido de detração na fixação do regime inicial",
+          "base_legal": "Art. 387, § 2º, do CPP e Art. 42 do CP",
+          "quando": "se houve condenação e o tempo de prisão provisória, prisão administrativa ou internação (no Brasil ou no estrangeiro, incluída prisão domiciliar cautelar conforme jurisprudência) altera o regime inicial de cumprimento",
+          "observacoes": "O cômputo para fins de regime inicial é feito pelo juiz sentenciante (Art. 387, § 2º, do CPP); a detração para os demais fins (progressão, livramento etc.) cabe ao juízo da execução (Art. 66, III, 'c', da LEP). A omissão na sentença não preclui: pode ser suprida em apelação ou perante o juízo da execução. Legitimidade da defesa e do MP; apreciável de ofício."
+        },
+        {
+          "peca": "Sentença penal (minuta de gabinete)",
+          "base_legal": "Arts. 381 e 387 do CPP",
+          "quando": "encerrada a instrução e apresentadas as alegações finais (orais em audiência ou por memoriais — arts. 403/404 do CPP), para julgar a pretensão acusatória",
+          "observacoes": "Peça típica do assessor de gabinete. Requisitos estruturais no Art. 381 do CPP; dosimetria trifásica no Art. 68 do CP; hipóteses de absolvição no Art. 386 do CPP; valor mínimo de reparação no Art. 387, IV (exige pedido expresso e contraditório, conforme jurisprudência do STJ). Se os fatos provados divergirem da denúncia, observar emendatio libelli (Art. 383) e mutatio libelli (Art. 384 — impede sentença direta, exige aditamento). Na condenatória, decidir fundamentadamente sobre prisão preventiva (Art. 387, §1º — crítico se réu preso) e computar detração para o regime inicial (Art. 387, §2º). Na absolutória, observar o parágrafo único do Art. 386 (liberdade, cessação de cautelares)."
         }
       ]
     },
@@ -709,6 +751,18 @@
           "base_legal": "Art. 105, III, da CF (REsp) e Art. 102, III e §3º, da CF (RE); Arts. 1.029 e seguintes do CPC, aplicáveis ao processo penal por força do Art. 638 do CPP",
           "quando": "contra acórdão de única ou última instância de TJ/TRF (REsp não cabe contra decisão de turma recursal de juizado — Súmula 203 do STJ) que contrariar tratado ou lei federal ou negar-lhes vigência, julgar válido ato de governo local em face de lei federal ou der à lei federal interpretação divergente (REsp, Art. 105, III, a–c); ou que contrariar a Constituição, declarar inconstitucionalidade de tratado ou lei federal ou julgar válida lei/ato local em face da CF (RE, Art. 102, III, a–d), exigida repercussão geral (Art. 102, §3º)",
           "observacoes": "Prazo de referência: 15 dias (Art. 1.003, §5º, do CPC — no processo penal, contados em dias corridos, Art. 798 do CPP); Defensoria Pública tem prazo em dobro (LC 80/94), o MP não; exigem prequestionamento (Súmulas 282 e 356 do STF) e esgotamento das instâncias ordinárias (Súmula 281 do STF); não têm efeito suspensivo automático e não se prestam a reexame de fatos e provas (Súmulas 7 do STJ e 279 do STF)."
+        },
+        {
+          "peca": "Contrarrazões de recurso",
+          "base_legal": "Arts. 588 e 600 do CPP",
+          "quando": "quando a parte contrária recorreu — resposta da acusação ou da defesa, em regra antes da remessa ao tribunal (exceção: na apelação, o apelante pode optar por arrazoar na superior instância — art. 600, §4º, do CPP, caso em que a vista às partes se abre no tribunal ad quem)",
+          "observacoes": "Prazo de referência: 8 dias na apelação (art. 600, caput; 3 dias em processos de contravenção; assistente arrazoa em 3 dias — §1º) e 2 dias no RESE (\"igual prazo\" do recorrido — art. 588). Contagem contínua do art. 798 do CPP (não se computa o dia do começo, inclui-se o do vencimento; sem suspensão em férias/feriados, salvo vencimento em dia sem expediente). A jurisprudência trata o prazo de razões/contrarrazões como impróprio (apresentação tardia = mera irregularidade, não preclusão), mas isso deve ser conferido pelo advogado no caso concreto. Réu recorrido no RESE é intimado na pessoa do defensor (art. 588, parágrafo único). Para a defesa, é também o veículo de preliminares de não conhecimento do recurso acusatório (intempestividade, ilegitimidade, falta de interesse)."
+        },
+        {
+          "peca": "Recurso especial e recurso extraordinário",
+          "base_legal": "Art. 105, III, \"a\" a \"c\", da CF (REsp) e Art. 102, III, \"a\" a \"d\", e § 3º, da CF (RE)",
+          "quando": "Contra acórdão de única ou última instância, esgotadas as instâncias ordinárias (Súmula 281/STF): REsp quando o acórdão contrariar tratado ou lei federal, negar-lhes vigência, julgar válido ato de governo local em face de lei federal ou divergir da interpretação de outro tribunal; RE quando contrariar a Constituição ou nas demais alíneas do art. 102, III, exigida a demonstração de repercussão geral (art. 102, § 3º)",
+          "observacoes": "Prazo de referência: 15 dias (Art. 1.003, § 5º, do CPC, aplicado subsidiariamente), contados de forma CONTÍNUA no processo penal (Art. 798 do CPP — não se aplica a contagem em dias úteis do CPC; jurisprudência pacífica de STJ/STF). Exigem prequestionamento da matéria no acórdão recorrido (Súmulas 282 e 356/STF; 211/STJ) e não admitem reexame de fatos e provas (Súmulas 7/STJ e 279/STF). No REsp, a relevância da questão federal é presumida em ações penais (Art. 105, §§ 2º e 3º, I, da CF). Em regra, sem efeito suspensivo; prazo em dobro para MP e Defensoria conforme o caso — conferir intimação e tempestividade no caso concreto."
         }
       ]
     },
@@ -741,6 +795,12 @@
           "base_legal": "Arts. 621 a 631 do CPP",
           "quando": "se, após o trânsito em julgado, a sentença condenatória for contrária ao texto expresso da lei penal ou à evidência dos autos, fundar-se em depoimentos/exames/documentos comprovadamente falsos, ou sobrevier prova nova de inocência ou de circunstância que determine ou autorize diminuição especial da pena (Art. 621, I a III, do CPP)",
           "observacoes": "Sem prazo — cabível a qualquer tempo, antes ou após a extinção da pena (Art. 622 do CPP); vedada a reiteração do pedido, salvo se fundada em novas provas (Art. 622, parágrafo único); legitimidade do próprio réu, de procurador legalmente habilitado ou, se falecido o réu, de cônjuge/ascendente/descendente/irmão (Art. 623 do CPP); ação exclusiva pro reo (não há revisão pro societate); julgada procedente, pode o tribunal reconhecer justa indenização por erro judiciário (Art. 630 do CPP). Tecnicamente é ação autônoma de impugnação de competência originária do tribunal, não incidente da execução regido pela LEP."
+        },
+        {
+          "peca": "Pedido de indulto ou comutação de pena",
+          "base_legal": "Art. 107, II, do CP; Arts. 188 a 193 da LEP; Art. 84, XII, da CF",
+          "quando": "Indulto coletivo/comutação: quando o apenado preenche os requisitos do decreto presidencial vigente (Art. 193 da LEP). Indulto individual (graça): a qualquer tempo da execução, por petição, independentemente de decreto coletivo (Arts. 188 a 192 da LEP)",
+          "observacoes": "Depende de decreto do Presidente da República (Art. 84, XII, da CF; delegável nos termos do parágrafo único) — tradicionalmente anual, mas de edição discricionária, com requisitos que variam a cada decreto. Legitimidade: indulto coletivo — juiz de ofício, a requerimento do interessado, do MP, ou por iniciativa do Conselho Penitenciário ou da autoridade administrativa (Art. 193 da LEP); indulto individual — petição do condenado, MP, Conselho Penitenciário ou autoridade administrativa (Art. 188 da LEP). Ressalva: crimes hediondos e equiparados (tortura, tráfico, terrorismo) são insuscetíveis de graça ou indulto (Art. 5º, XLIII, da CF; Art. 2º, I, da Lei 8.072/90). Conferir sempre o texto do decreto vigente — a ferramenta não conclui requisitos nem prazos."
         }
       ]
     }
