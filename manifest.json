@@ -2,7 +2,7 @@
   "manifest_version": "0.4",
   "name": "case-file",
   "display_name": "Case File",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Leia e consulte processos judiciais direto no seu computador: respostas com o documento e a pagina de origem de cada informacao, linha do tempo, quadro de controversias e relatorios prontos em Word. O processo nunca sai da sua maquina.",
   "author": {
     "name": "Case File"
@@ -46,6 +46,7 @@
     { "name": "exportar_documento", "description": "Converte relatorio/minuta em DOCX (Word) na pasta exports/ do caso e solicita a abertura na tela." },
     { "name": "mapear_controversias", "description": "Quadro de controversias: ocorrencias por tema agrupadas por peca (inicial, contestacao, replica, atos, provas)." },
     { "name": "montar_pacote_evidencias", "description": "Monta bundle pequeno para analise ou jurisprudencia." },
+    { "name": "fase_do_processo", "description": "Fase processual derivada do caderno (com peca-ancora) + pecas de referencia cabiveis na fase, com base legal. Referencia, nunca ordem de protocolo." },
     { "name": "remover_caso", "description": "Move um caso para a lixeira local (_lixeira/), reversivel; exige repetir o case_id para confirmar." },
     { "name": "retomar_ingestao", "description": "Retoma o worker local de ingestao quando o cliente reinicia, a chave Gemini passa a existir ou o OCR foi aprovado." },
     { "name": "autorizar_ocr", "description": "Autoriza OCR BYOK com limites explicitos de paginas e chamadas." },

@@ -10,7 +10,7 @@ const tools = makeTools(config);
 const server = new McpServer(
   {
     name: "case-file",
-    version: "1.2.1",
+    version: "1.3.0",
   },
   {
     instructions: [
@@ -21,6 +21,8 @@ const server = new McpServer(
       "MULTI-CASO: se o usuário não nomear o caso, chame listar_casos; havendo mais de um, pergunte qual usar — nunca presuma. Cada caso é um workspace isolado (índice, embeddings e dossiê próprios).",
       "INTENÇÃO 'resuma o caso': responda em CAMADAS — 1) Síntese executiva de até 150 palavras, sem citações (partes, objeto, valor, estado geral); 2) Partes, valor e objeto COM citações; 3) Pedidos e defesas centrais (máx. 5, separando alegação do autor, defesa do réu e ato judicial); 4) Documentos centrais (máx. 5, indicando fonte primária vs menção em peça); 5) Andamento e pendências; 6) Próxima ação em UMA frase. Total até ~600 palavras; se precisar de mais, resuma e ofereça o relatório completo em Word.",
       "INTENÇÃO 'diagnóstico do caso' (também 'parecer inicial', 'visão geral completa'): entregue UM documento limpo com: 1) Resumo executivo (até 150 palavras, sem citações); 2) Fase processual e andamento; 3) Partes; 4) Pedidos/acusação e defesas centrais; 5) Decisões já proferidas; 6) Controvérsias centrais (use mapear_controversias); 7) Riscos e pontos de atenção (radar quando cível; em penal, ressalvas sem prazo); 8) PESQUISAS DE JURISPRUDÊNCIA SUGERIDAS — 3-6 sugestões extraídas do pacote de evidências (montar_pacote_evidencias), cada uma com TRÊS partes obrigatórias: (a) Fatos do caso que a motivam, em 1-2 frases COM citação; (b) Por que pesquisar — o que está controvertido e o que depende de precedente (ex.: 'a ré impugna o dever de indenizar; a tese do autor depende de entendimento consolidado sobre X'); (c) Pesquisa pronta, entre aspas, para rodar no serviço de jurisprudência conectado (ex.: 'dano moral por negativação indevida — quantum'). Sugestão sem fato do caso e sem justificativa NÃO entra. Seções 2-7 com citações; ofereça exportar em Word (verificar_referencias antes).",
+      "INTENÇÃO 'em que fase está / qual a próxima peça': use fase_do_processo. Apresente a fase SEMPRE com a peça-âncora citada ('sentença às págs. 890-903 → fase recursal'); as peças cabíveis são CANDIDATAS CONDICIONAIS — cada uma com base legal e, quando houver, o prazo de REFERÊNCIA da tabela de prazos ('se o prazo do art. 1.009 ainda corre — conferir termo inicial — cabe apelação'); NUNCA afirme 'protocole X até dia Y' nem calcule data. Se a fase vier 'não identificável', diga isso e apure pela última decisão dos autos antes de sugerir peça. Lembre o usuário: a fase deriva do PDF preparado — a movimentação real pode estar à frente.",
+      "TESTE DE RESISTÊNCIA (falhas materiais): quando pedirem fraquezas, riscos ou 'onde meu caso é vulnerável', para cada controvérsia central pesquise no serviço de jurisprudência conectado a tese DOMINANTE — inclusive a contrária ao usuário — e reporte onde os fatos do caso (com citação) colidem com entendimento consolidado. Só precedente registrado e conferido entra no relatório; a conclusão jurídica é do advogado.",
       "INTENÇÃO 'cronologia / o que aconteceu em período X': use a tool linha_do_tempo (nunca reconstrua página a página) e responda em tabela Data | Evento | Fonte | Citação | Ressalva, sempre separando a data do FATO da data da JUNTADA; alvo 5–20 linhas; só declare datas que constem do material.",
       "INTENÇÃO busca pontual ('onde fala de X?'): abra com 'Encontrei', 'Não localizei' ou 'Encontrei parcialmente'; liste até 8 ocorrências com citação e natureza da fonte (fonte primária, alegação de parte, ato judicial); trecho crucial vai em bloco recuado APÓS reabrir o verbatim; feche oferecendo abrir o original no computador.",
       "INTENÇÃO risco/estratégia: Conclusão executiva → Fatos firmes (com citações) → Alegação vs prova → Riscos → Teses possíveis → Provas faltantes → Próxima providência. Nunca calcule prazo final; só prazo de referência com ressalvas. Acima de ~1.500 palavras, ofereça Word.",
@@ -212,6 +214,21 @@ server.tool(
     max_calls: z.number().int().min(1).max(2000),
   },
   async (args) => asText(await tools.indexar_semantica(args)),
+);
+
+server.tool(
+  "fase_do_processo",
+  "Fase processual derivada das pecas do caderno (com a peca-ancora citada) + pecas de REFERENCIA tipicamente cabiveis naquela fase, com base legal e condicao. Nunca e ordem de protocolo. fase_id opcional para consultar a tabela de uma fase especifica.",
+  {
+    case_id: z.string(),
+    fase_id: z
+      .string()
+      .optional()
+      .describe(
+        "Consulta manual: postulatoria|defesa|instrucao|decisoria|recursal|execucao (civil) ou inquerito|acao-proposta|instrucao|decisoria|recursal|execucao (penal)",
+      ),
+  },
+  async (args) => asText(await tools.fase_do_processo(args)),
 );
 
 server.tool(

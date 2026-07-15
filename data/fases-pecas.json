@@ -1,0 +1,748 @@
+{
+  "versao": "2026-07-15.1",
+  "escopo": "Fase processual → peças de REFERÊNCIA tipicamente cabíveis (cível CPC / penal CPP e leis especiais), com base legal e condição de cabimento. Candidatos para conferência do advogado — nunca ordem de protocolo nem cálculo de data. Prescrição penal fora do escopo.",
+  "fontes_curadoria": [
+    "Curadoria multi-agente (jul/2026): 4 pesquisadores (lentes estrutura do código + prática forense, cível e penal), verificação adversarial 1-por-entrada com checagem da literalidade dos artigos na base de legislação Jusratio",
+    "107 entradas aprovadas; 2 reprovadas/descartadas; entradas cuja verificação não concluiu foram EXCLUÍDAS (conservador)"
+  ],
+  "fases": [
+    {
+      "area": "civil",
+      "fase_id": "postulatoria",
+      "fase": "Postulatória",
+      "ordem": 1,
+      "pecas": [
+        {
+          "peca": "Agravo de instrumento (tutela provisória)",
+          "base_legal": "Art. 1.015, I, do CPC",
+          "quando": "se houve decisão interlocutória que verse sobre tutela provisória (concessão, negativa, modificação, revogação ou questões acessórias da medida — STJ lê \"versarem sobre\" de forma ampla)",
+          "observacoes": "Prazo: 15 dias ÚTEIS (arts. 1.003, §5º, e 219). Em dobro para Fazenda Pública, MP e Defensoria (arts. 183, 180 e 186); o dobro do art. 229 (litisconsortes com procuradores distintos) NÃO se aplica a autos eletrônicos (art. 229, §2º). Legitimidade: parte vencida, terceiro prejudicado e MP (art. 996). Rol do art. 1.015 com taxatividade mitigada (STJ, Tema 988) — conferir enquadramento."
+        },
+        {
+          "peca": "Reconvenção",
+          "base_legal": "Art. 343 do CPC",
+          "quando": "se o réu tem pretensão própria conexa com a ação principal ou com o fundamento da defesa, a deduzir na própria contestação",
+          "observacoes": "Apresentada na contestação (art. 343, caput), no mesmo prazo de resposta. Legitimidade do réu; admite-se reconvenção sem contestar (art. 343, §6º). A desistência da ação principal não obsta o prosseguimento da reconvenção (art. 343, §2º)."
+        },
+        {
+          "peca": "Emenda à petição inicial",
+          "base_legal": "Art. 321 do CPC",
+          "quando": "se o juiz intimou o autor a emendar ou completar a inicial por defeito ou irregularidade sanável",
+          "observacoes": "Prazo de referência: 15 dias (art. 321, caput). Legitimidade do autor. Não atendida a determinação, a inicial é indeferida (art. 321, parágrafo único)."
+        },
+        {
+          "peca": "Contestação",
+          "base_legal": "Art. 335 do CPC",
+          "quando": "após a citação do réu, dentro do prazo de resposta, ainda pendente a defesa",
+          "observacoes": "Prazo de referência: 15 dias úteis (art. 335, caput), com termo inicial variável (audiência do art. 334, protocolo do cancelamento, ou art. 231 — conferir o caso). Prazo em dobro: MP (art. 180), Fazenda Pública (art. 183), Defensoria/escritórios de prática conveniados (art. 186) e litisconsortes com procuradores de escritórios distintos (art. 229 — inaplicável em autos eletrônicos, §2º). Concentração da defesa: toda matéria deve vir na contestação (art. 336); preliminares do art. 337 arguidas nela, sob pena de preclusão (salvo matérias cognoscíveis de ofício, art. 337, §5º — excetuadas convenção de arbitragem e incompetência relativa)."
+        },
+        {
+          "peca": "Aditamento ou alteração do pedido/causa de pedir",
+          "base_legal": "Art. 329, I e II, do CPC",
+          "quando": "se o autor quer modificar o pedido ou a causa de pedir e o réu ainda não foi citado (livremente, inciso I) ou, já citado, consente e ainda não houve saneamento (inciso II)",
+          "observacoes": "Até a citação, independe de consentimento do réu (I); após a citação e até o saneamento, exige consentimento do réu, assegurado contraditório em prazo mínimo de 15 dias e facultada prova suplementar (II). Após o saneamento, a demanda se estabiliza (vedada alteração mesmo com consentimento, salvo flexibilização excepcional admitida pelo STJ). Aplica-se também à reconvenção (art. 329, parágrafo único)."
+        },
+        {
+          "peca": "Apelação (indeferimento da inicial ou improcedência liminar)",
+          "base_legal": "Arts. 331 e 332, §3º, do CPC",
+          "quando": "se houve sentença de indeferimento da petição inicial ou de improcedência liminar do pedido e a intimação é recente",
+          "observacoes": "Prazo de referência: 15 dias ÚTEIS (arts. 1.003, §5º, e 219; em dobro p/ Fazenda, MP e Defensoria — arts. 183, 180 e 186; art. 229 não se aplica a autos eletrônicos). Legitimidade do autor. Em ambos os casos o juiz pode se retratar em 5 dias (arts. 331, caput, e 332, §3º); mantida a sentença, o réu é citado para responder ao recurso/contrarrazões (arts. 331, §1º, e 332, §4º)."
+        },
+        {
+          "peca": "Pedido de tutela provisória (urgência ou evidência)",
+          "base_legal": "Arts. 294, 300, 303, 305 e 311 do CPC",
+          "quando": "se há probabilidade do direito e perigo de dano/risco ao resultado útil (urgência, art. 300) ou hipóteses de evidência do art. 311 (sem exigência de perigo)",
+          "observacoes": "Pode ser incidental ou antecedente — antecipada antecedente (art. 303) ou cautelar antecedente (art. 305, pedido principal em 30 dias, art. 308). Na antecipada antecedente, se CONCEDIDA: aditamento em 15 dias ou prazo maior fixado pelo juiz (art. 303, §1º, I), sob pena de extinção sem mérito (§2º), e estabilização se não interposto recurso (art. 304 — só nessa modalidade); se negada, emenda em 5 dias (§6º). Evidência dos incisos II e III do art. 311 admite liminar (parágrafo único)."
+        },
+        {
+          "peca": "Petição inicial",
+          "base_legal": "Arts. 319 e 320 do CPC",
+          "quando": "para propor a demanda, observados os requisitos formais e os documentos indispensáveis",
+          "observacoes": "Interesse e legitimidade são requisitos para postular em juízo (Art. 17 do CPC); valor da causa obrigatório (Art. 291 do CPC); inicial incompleta enseja emenda em 15 dias antes do indeferimento (Art. 321 do CPC)."
+        },
+        {
+          "peca": "Pedido de gratuidade de justiça",
+          "base_legal": "Arts. 98 a 100 do CPC",
+          "quando": "se a parte (natural ou jurídica) não tem condições de arcar com custas, despesas processuais e honorários; pode ser formulado na inicial, na contestação, no ingresso de terceiro, em recurso ou, supervenientemente, por petição simples a qualquer tempo (art. 99, caput e §1º)",
+          "observacoes": "Presunção de veracidade da alegação só para pessoa natural (art. 99, §3º); indeferimento exige prévia oportunidade de comprovação (art. 99, §2º); impugnação pela parte contrária na contestação/réplica/contrarrazões ou por petição simples em 15 dias (art. 100); sucumbência do beneficiário fica sob condição suspensiva de exigibilidade por 5 anos (art. 98, §3º)."
+        }
+      ]
+    },
+    {
+      "area": "civil",
+      "fase_id": "defesa",
+      "fase": "Defesa apresentada",
+      "ordem": 2,
+      "pecas": [
+        {
+          "peca": "Petição de especificação/requerimento de provas",
+          "base_legal": "Art. 369 do CPC",
+          "quando": "se o juízo intimou as partes a especificar as provas que pretendem produzir, ou antes do saneamento, para delimitar a atividade instrutória",
+          "observacoes": "O art. 369 assegura o emprego de todos os meios legais de prova; a delimitação ocorre no saneamento (art. 357, II). Requerimento genérico ou silêncio costuma ser tratado como desinteresse na dilação probatória — indicar prova e finalidade."
+        },
+        {
+          "peca": "Contestação à reconvenção (resposta do autor-reconvindo)",
+          "base_legal": "Art. 343, §1º, do CPC",
+          "quando": "se o réu reconveio (na contestação ou autonomamente, art. 343, §6º) e o autor-reconvindo foi intimado na pessoa de seu advogado para responder",
+          "observacoes": "Prazo de referência: 15 dias úteis (arts. 343, §1º, e 219). Em dobro p/ MP, Fazenda, Defensoria (arts. 180, 183 e 186) e litisconsortes com procuradores distintos em autos físicos (art. 229). Legitimidade do autor-reconvindo (e de terceiro reconvindo, art. 343, §3º). Revelia na reconvenção produz efeitos próprios, mas a presunção de veracidade pode não operar se os fatos já estão controvertidos na ação principal."
+        },
+        {
+          "peca": "Manifestação sobre documentos juntados pela parte contrária",
+          "base_legal": "Art. 437, §1º, do CPC",
+          "quando": "se a outra parte juntou documentos novos aos autos (art. 435) e houve intimação para manifestação",
+          "observacoes": "Prazo de referência: 15 dias (art. 437, §1º), dilatável pelo juiz conforme quantidade/complexidade da documentação (art. 437, §2º); em dobro p/ Fazenda Pública (art. 183), Defensoria (art. 186) e litisconsortes com procuradores distintos em autos físicos (art. 229). Conteúdo possível: art. 436 (impugnar admissibilidade, autenticidade, arguir falsidade ou manifestar-se sobre o conteúdo). Silêncio pode gerar preclusão sobre a impugnação."
+        },
+        {
+          "peca": "Réplica (impugnação à contestação)",
+          "base_legal": "Arts. 350 e 351 do CPC",
+          "quando": "se a contestação alegou fato impeditivo, modificativo ou extintivo do direito do autor (art. 350), ou preliminares do art. 337 (art. 351)",
+          "observacoes": "Prazo de referência: 15 dias (arts. 350 e 351); em dobro p/ Fazenda, MP, Defensoria e litisconsortes com procuradores distintos (arts. 183, 180, 186 e 229). Legitimidade do autor. Manifestação sobre documentos juntados com a contestação segue o caput do art. 437; juntada superveniente, o art. 437, §1º. Reconvenção tem regime próprio (art. 343, §1º)."
+        },
+        {
+          "peca": "Agravo de instrumento (interlocutórias da fase de conhecimento)",
+          "base_legal": "Art. 1.015 do CPC",
+          "quando": "se houve decisão interlocutória enquadrada no rol do art. 1.015 (ex.: mérito parcial, exclusão de litisconsorte, rejeição de convenção de arbitragem)",
+          "observacoes": "Prazo de referência: 15 dias (art. 1.003, §5º). Interlocutórias não agraváveis não precluem: são impugnáveis em apelação ou contrarrazões (art. 1.009, §1º). Taxatividade mitigada (STJ, Tema 988)."
+        },
+        {
+          "peca": "Petição requerendo julgamento antecipado do mérito",
+          "base_legal": "Art. 355 do CPC",
+          "quando": "se não há necessidade de produção de outras provas (inciso I); o inciso II (revelia com presunção de veracidade do art. 344 e sem requerimento de prova pelo revel, art. 349) só incide nesta fase contra corréu revel em litisconsórcio, e mesmo assim a contestação de litisconsorte afasta a presunção (art. 345, I)",
+          "observacoes": "Qualquer das partes pode requerer; o juiz também pode decidir de ofício. Atenção: a parte que requer julgamento antecipado não poderá depois alegar cerceamento de defesa pela não produção de prova (preclusão lógica). Cabe ainda julgamento antecipado parcial (art. 356), impugnável por agravo de instrumento (art. 356, §5º)."
+        },
+        {
+          "peca": "Reconvenção",
+          "base_legal": "Art. 343 do CPC",
+          "quando": "na própria contestação, se a pretensão do réu é conexa com a ação principal ou com o fundamento da defesa",
+          "observacoes": "Mesmo prazo da contestação (peça única); pode ser proposta ainda que o réu não conteste (Art. 343, §6º)."
+        },
+        {
+          "peca": "Impugnação à gratuidade de justiça concedida à parte contrária",
+          "base_legal": "Art. 100 do CPC (c/c art. 99, §§2º e 3º)",
+          "quando": "se há nos autos elementos que evidenciem a falta dos pressupostos legais da gratuidade concedida (a alegação de insuficiência de pessoa natural presume-se verdadeira — ônus do impugnante de infirmá-la)",
+          "observacoes": "Veicula-se na contestação (réu) ou na réplica (autor); petição simples SOMENTE nos casos de pedido superveniente ou formulado por terceiro, no prazo de 15 dias, nos próprios autos e sem suspensão do processo (Art. 100, caput); prazo em dobro dos arts. 183/186/229 aplica-se quando a impugnação vem no bojo de contestação/réplica; revogado o benefício, a parte arca com as despesas não adiantadas e, em má-fé, multa de até o décuplo (Art. 100, parágrafo único)."
+        },
+        {
+          "peca": "Réplica (manifestação do autor sobre a contestação)",
+          "base_legal": "Arts. 350, 351 e 437, §1º, do CPC",
+          "quando": "se a contestação traz preliminares (art. 337), fato impeditivo, modificativo ou extintivo do direito do autor, ou documentos novos",
+          "observacoes": "Prazo de referência: 15 dias; peça do AUTOR — item que a lente 'estrutura do código' costuma esquecer na sequência prática da fase. Ressalva: prazo em dobro p/ Fazenda Pública (art. 183), Defensoria (art. 186) e litisconsortes com procuradores distintos em autos físicos (art. 229); não é peça obrigatória — só cabe nessas hipóteses."
+        },
+        {
+          "peca": "Contestação",
+          "base_legal": "Arts. 335 e 336 do CPC",
+          "quando": "após a citação, no prazo de resposta, concentrando toda a matéria de defesa",
+          "observacoes": "Prazo de referência: 15 dias com termo inicial variável (Art. 335, I a III); preliminares do Art. 337; ônus da impugnação especificada (Art. 341); revelia como consequência (Art. 344); prazo em dobro para MP (Art. 180), Fazenda Pública (Art. 183), Defensoria (Art. 186) e litisconsortes com procuradores distintos em autos físicos (Art. 229)."
+        },
+        {
+          "peca": "Denunciação da lide / chamamento ao processo",
+          "base_legal": "Arts. 125 a 129 (denunciação) e 130 a 132 (chamamento) do CPC",
+          "quando": "na contestação, se há direito de regresso ou evicção (denunciação, art. 125, I e II) ou coobrigados pela dívida — fiador/devedor principal, fiadores, devedores solidários (chamamento, art. 130)",
+          "observacoes": "Preclusão: deve vir na contestação (arts. 126 e 131), sob pena de perda da via regressiva no mesmo processo (ação autônoma segue possível, art. 125, §1º). Citação do chamado em 30 dias (2 meses se outra comarca), sob pena de o chamamento ficar sem efeito (art. 131). Admite-se uma única denunciação sucessiva (art. 125, §2º). Denunciação vedada nas relações de consumo (CDC, art. 88)."
+        }
+      ]
+    },
+    {
+      "area": "civil",
+      "fase_id": "instrucao",
+      "fase": "Saneamento e instrução",
+      "ordem": 3,
+      "pecas": [
+        {
+          "peca": "Rol de testemunhas",
+          "base_legal": "Art. 357, §§4º a 7º, do CPC",
+          "quando": "se foi deferida prova testemunhal: no prazo comum fixado pelo juiz na decisão de saneamento, não superior a 15 dias (art. 357, §4º); se o saneamento ocorrer em audiência cooperativa (art. 357, §3º), o rol deve ser levado à própria audiência (§5º)",
+          "observacoes": "Limites: máx. 10 testemunhas, 3 por fato (art. 357, §6º), podendo o juiz reduzir conforme a complexidade (§7º). Cabe ao ADVOGADO da parte informar ou intimar a testemunha (art. 455, caput; intimação judicial só nas hipóteses do art. 455, §4º). Após apresentado o rol, substituição só nas hipóteses taxativas do art. 451 (falecimento, enfermidade, não localização) — preclusão."
+        },
+        {
+          "peca": "Pedido de esclarecimentos ou ajustes da decisão de saneamento",
+          "base_legal": "Art. 357, §1º, do CPC",
+          "quando": "se foi proferida decisão de saneamento e organização do processo e há ponto a esclarecer ou ajustar",
+          "observacoes": "Prazo de referência: 5 dias úteis comuns (arts. 357, §1º, e 219); em dobro p/ MP, Fazenda e Defensoria (arts. 180, 183 e 186) e litisconsortes com procuradores distintos em autos físicos (art. 229). Escoado o prazo, a decisão se torna estável — mas a estabilidade não afasta agravo de instrumento nos pontos agraváveis (ex.: ônus da prova, art. 1.015, XI). Legitimidade de qualquer das partes."
+        },
+        {
+          "peca": "Quesitos e indicação de assistente técnico",
+          "base_legal": "Art. 465, §1º, do CPC",
+          "quando": "se foi deferida prova pericial e o perito foi nomeado",
+          "observacoes": "Prazo de referência: 15 dias da intimação do despacho de nomeação (art. 465, §1º) para arguir impedimento/suspeição do perito (ver tb. art. 148, §1º), indicar assistente técnico e apresentar quesitos. Prazo em dobro quando aplicável (arts. 183, 186 e 229 do CPC). STJ trata o prazo como impróprio quanto a quesitos e assistente (admissíveis até o início dos trabalhos periciais); quesitos suplementares admitidos durante a diligência (art. 469)."
+        },
+        {
+          "peca": "Alegações finais por memoriais",
+          "base_legal": "Art. 364, §2º, do CPC",
+          "quando": "se, encerrada a instrução, o juiz substituiu os debates orais por razões finais escritas (questões complexas de fato ou de direito), assegurada vista dos autos",
+          "observacoes": "Prazo de referência: 15 dias sucessivos para autor, réu e, se for o caso, MP (art. 364, §2º); em dobro para Fazenda, MP e Defensoria (arts. 183, 180 e 186). Alternativa padrão: debates orais de 20 min, prorrogáveis por 10 a critério do juiz, divididos entre litisconsortes do mesmo grupo (art. 364, caput e §1º). Não apresentar memoriais no prazo não gera nulidade — preclui a faculdade e o feito segue para sentença."
+        },
+        {
+          "peca": "Agravo de instrumento (redistribuição do ônus da prova)",
+          "base_legal": "Art. 1.015, XI, do CPC",
+          "quando": "se houve decisão que redistribuiu (ou indeferiu a redistribuição/inversão) do ônus da prova nos termos do art. 373, §1º (STJ estende o inciso à inversão do CDC, art. 6º, VIII)",
+          "observacoes": "Prazo de referência: 15 dias úteis (arts. 1.003, §5º, e 219); em dobro p/ Fazenda, MP e Defensoria (arts. 180, 183, 186). Legitimidade da parte onerada pela redistribuição. A redistribuição deve ocorrer antes de encerrada a instrução, com oportunidade de desincumbência (art. 373, §1º)."
+        },
+        {
+          "peca": "Manifestação sobre o laudo pericial",
+          "base_legal": "Art. 477, §1º, do CPC",
+          "quando": "se o laudo pericial foi juntado e as partes foram intimadas a se manifestar",
+          "observacoes": "Prazo de referência: 15 dias comuns (art. 477, §1º); assistente técnico pode apresentar parecer no mesmo prazo. Esclarecimentos do perito por divergência/dúvida: art. 477, §2º; se ainda necessários, intimação do perito para a audiência com quesitos desde logo: art. 477, §3º. Segunda perícia: art. 480. Ressalvas: prazo em dobro para Fazenda/MP/Defensoria (arts. 183, 180 e 186); a inércia preclui a impugnação ao laudo."
+        },
+        {
+          "peca": "Pedido de esclarecimentos ou ajustes à decisão de saneamento",
+          "base_legal": "Art. 357, §1º, do CPC",
+          "quando": "após a intimação da decisão de saneamento e organização do processo",
+          "observacoes": "Prazo COMUM de referência: 5 dias (em dobro p/ Fazenda Pública, MP e Defensoria — arts. 183, 180 e 186 CPC); transcorrido sem manifestação, a decisão torna-se estável (art. 357, §1º; equiparada pela doutrina à preclusão)."
+        },
+        {
+          "peca": "Alegações finais (memoriais)",
+          "base_legal": "Art. 364, caput e §§1º-2º, do CPC",
+          "quando": "encerrada a instrução, oralmente na audiência (20 min prorrogáveis por 10); o juiz PODERÁ substituir o debate por memoriais escritos quando a causa envolver questões complexas de fato ou de direito",
+          "observacoes": "Memoriais: prazos sucessivos de 15 dias para autor, réu e MP (se intervier), assegurada vista dos autos (art. 364, §2º); substituição é a critério do juiz, não direito da parte; litisconsortes do mesmo grupo dividem o tempo oral (§1º); Fazenda, Defensoria e MP têm prazo em dobro (arts. 180, 183 e 186); última oportunidade de valorar a prova antes da sentença — a supressão da oportunidade pode configurar cerceamento de defesa."
+        },
+        {
+          "peca": "Manifestação sobre documentos novos",
+          "base_legal": "Arts. 435, 436 e 437, §§1º e 2º, do CPC",
+          "quando": "se documentos novos forem juntados no curso da instrução (art. 435: fatos supervenientes, contraposição ou documentos formados/conhecidos após inicial/contestação, com justificativa)",
+          "observacoes": "Prazo de referência: 15 dias (art. 437, §1º), dilatável pelo juiz conforme volume/complexidade (§2º); em dobro p/ Fazenda, MP, Defensoria e litisconsortes com procuradores distintos (arts. 183, 180, 186, 229); conteúdo = posturas do art. 436 (impugnar admissibilidade/autenticidade, arguir falsidade ou manifestar-se sobre o conteúdo); silêncio → preclusão da impugnação."
+        },
+        {
+          "peca": "Indicação de assistente técnico e apresentação de quesitos",
+          "base_legal": "Art. 465, §1º, II e III, do CPC",
+          "quando": "em 15 dias contados da intimação do despacho de nomeação do perito",
+          "observacoes": "Prazo comum às partes; em dobro p/ MP, Fazenda, Defensoria (arts. 180, 183, 186) e litisconsortes com procuradores distintos em autos físicos (art. 229); STJ entende o prazo como impróprio (não preclusivo) — admite indicação/quesitos após os 15 dias se anteriores ao início dos trabalhos periciais; quesitos suplementares durante a diligência (art. 469)."
+        }
+      ]
+    },
+    {
+      "area": "civil",
+      "fase_id": "decisoria",
+      "fase": "Decisória",
+      "ordem": 4,
+      "pecas": [
+        {
+          "peca": "Apelação",
+          "base_legal": "Art. 1.009 do CPC",
+          "quando": "se houve sentença (com ou sem resolução de mérito — arts. 485 e 487) e a intimação é recente",
+          "observacoes": "Prazo de referência: 15 dias úteis (art. 1.003, §5º c/c art. 219); em dobro para MP, Fazenda Pública, Defensoria e litisconsortes com procuradores distintos de escritórios diversos em autos físicos (arts. 180, 183, 186 e 229). Legitimidade da parte vencida, do terceiro prejudicado e do MP (art. 996). Questões interlocutórias não agraváveis devem ser suscitadas em preliminar de apelação OU nas contrarrazões, sob pena de preclusão (art. 1.009, §§1º e 2º). Requisitos: art. 1.010; sem juízo de admissibilidade em 1º grau (art. 1.010, §3º)."
+        },
+        {
+          "peca": "Embargos de declaração",
+          "base_legal": "Art. 1.022 do CPC",
+          "quando": "se a sentença contém obscuridade, contradição, omissão ou erro material e ainda corre o prazo de 5 dias da intimação",
+          "observacoes": "Prazo: 5 dias úteis, sem preparo (arts. 1.023 e 219); em dobro p/ MP, Fazenda, Defensoria e litisconsortes com procuradores distintos em autos físicos (arts. 180, 183, 186 e 229). Interrompem o prazo dos demais recursos para ambas as partes (art. 1.026) — mas embargos intempestivos/não conhecidos não interrompem (STJ). Sem efeito suspensivo automático (art. 1.026, caput; suspensão possível via §1º). Legitimidade: partes, terceiro prejudicado e MP (art. 996). Risco de multa se protelatórios (art. 1.026, §§2º-4º)."
+        },
+        {
+          "peca": "Pedido de concessão de efeito suspensivo à apelação",
+          "base_legal": "Art. 1.012, §§3º e 4º, do CPC",
+          "quando": "se a apelação interposta não tem efeito suspensivo automático (hipóteses do art. 1.012, §1º) e o apelante demonstra probabilidade de provimento OU, sendo relevante a fundamentação, risco de dano grave ou de difícil reparação (requisitos alternativos, §4º)",
+          "observacoes": "Dirigido ao tribunal entre a interposição e a distribuição (art. 1.012, §3º, I — o relator designado fica prevento) ou ao relator, se já distribuída (§3º, II). Legitimidade do apelante. Sem prazo específico: cabível enquanto pendente a apelação. Requisitos do §4º são ALTERNATIVOS, não cumulativos."
+        },
+        {
+          "peca": "Contrarrazões de apelação",
+          "base_legal": "Art. 1.010, §1º, do CPC",
+          "quando": "se a parte contrária apelou e houve intimação para responder",
+          "observacoes": "Prazo de referência: 15 dias (art. 1.010, §1º). Podem veicular as interlocutórias não agraváveis decididas contra o apelado (art. 1.009, §§1º e 2º — questões não cobertas pela preclusão; se suscitadas, o apelante é intimado para manifestar-se em 15 dias). Prazo em dobro p/ Fazenda Pública, MP e Defensoria (arts. 183, 180 e 186) e p/ litisconsortes com procuradores distintos em autos físicos (art. 229)."
+        },
+        {
+          "peca": "Apelação adesiva (recurso adesivo)",
+          "base_legal": "Art. 997, §§1º e 2º, do CPC",
+          "quando": "se há sucumbência recíproca, a parte não apelou de forma independente e a outra parte apelou",
+          "observacoes": "Interposta no prazo das contrarrazões (art. 997, §2º, I), computado em dobro para Fazenda Pública, Defensoria e litisconsortes com procuradores distintos (arts. 183, 186 e 229 do CPC). Subordinada ao recurso principal: não será conhecida se houver desistência ou inadmissão daquele (art. 997, §2º, III). Adesivo só é admissível em apelação, RE e REsp (art. 997, §2º, II)."
+        },
+        {
+          "peca": "Petição de correção de inexatidão material da sentença",
+          "base_legal": "Art. 494, I, do CPC",
+          "quando": "se a sentença contém inexatidões materiais ou erros de cálculo evidentes",
+          "observacoes": "Corrigível a requerimento da parte ou de ofício (art. 494, I); conforme jurisprudência pacífica do STJ, a correção pode ocorrer a qualquer tempo, inclusive após o trânsito em julgado, sem prazo preclusivo e sem ofensa à coisa julgada. Não serve para rediscutir o mérito; para vícios do art. 1.022 (obscuridade, contradição, omissão), a via são os embargos de declaração."
+        },
+        {
+          "peca": "Pedido de correção de inexatidão material ou erro de cálculo",
+          "base_legal": "Art. 494, I, do CPC",
+          "quando": "se a sentença contém inexatidão material ou erro de cálculo, a qualquer tempo, inclusive após o trânsito em julgado (jurisprudência pacífica do STJ)",
+          "observacoes": "Pode ser feito de ofício ou a requerimento; não se sujeita a prazo nem preclusão; não substitui recurso sobre o mérito — vedado alterar o conteúdo decisório sob pretexto de corrigir erro material."
+        },
+        {
+          "peca": "Contrarrazões (manifestação) aos embargos de declaração",
+          "base_legal": "Art. 1.023, §2º, do CPC",
+          "quando": "quando o eventual acolhimento dos embargos puder modificar a decisão embargada — o juiz DEVE intimar o embargado",
+          "observacoes": "Prazo de referência: 5 dias úteis (art. 219); manifestação facultativa (\"querendo\"); em dobro p/ Fazenda, MP e Defensoria (arts. 183, 180, 186); intimação obrigatória sob pena de nulidade se houver efeito modificativo (STJ; arts. 9º e 10 do CPC)."
+        },
+        {
+          "peca": "Averbação de hipoteca judiciária (no cartório de RI) + petição de comunicação ao juízo",
+          "base_legal": "Art. 495, caput e §§1º-5º, do CPC",
+          "quando": "se a sentença condena ao pagamento de prestação em dinheiro ou determina a conversão de prestação de fazer, não fazer ou dar coisa em prestação pecuniária",
+          "observacoes": "Independe de trânsito em julgado (§1º, III) e de ordem judicial — averbação por iniciativa da parte no cartório de registro imobiliário com cópia da sentença (§2º); comunicar ao juízo em até 15 dias da averbação para intimação da parte contrária (§3º); gera preferência pela prioridade do registro (§4º); atenção: reforma/invalidação da decisão gera responsabilidade objetiva do credor pelos danos, liquidada nos próprios autos (§5º)."
+        }
+      ]
+    },
+    {
+      "area": "civil",
+      "fase_id": "recursal",
+      "fase": "Recursal",
+      "ordem": 5,
+      "pecas": [
+        {
+          "peca": "Agravo em recurso especial/extraordinário",
+          "base_legal": "Art. 1.042 do CPC",
+          "quando": "se a presidência do tribunal recorrido inadmitiu o RE ou o REsp, salvo quando a inadmissão se fundou em repetitivo ou repercussão geral",
+          "observacoes": "Prazo de referência: 15 dias (art. 1.003, §5º). Se a inadmissão aplicou entendimento de regime repetitivo/repercussão geral, o cabível é agravo interno (art. 1.030, §2º) — conferir o fundamento da decisão."
+        },
+        {
+          "peca": "Embargos de declaração contra acórdão",
+          "base_legal": "Art. 1.022 do CPC",
+          "quando": "se o acórdão contém obscuridade, contradição, omissão ou erro material — inclusive para fins de prequestionamento",
+          "observacoes": "Prazo de referência: 5 dias (art. 1.023), sem preparo; em dobro p/ Fazenda, MP, Defensoria (arts. 183, 180, 186) e litisconsortes com procuradores distintos (art. 229 c/c art. 1.023, §1º). Interrompem o prazo dos demais recursos (art. 1.026). Prequestionamento ficto: art. 1.025. Efeito modificativo exige contraditório prévio (art. 1.023, §2º). Embargos protelatórios sujeitam a multa de até 2% do valor da causa (art. 1.026, §2º)."
+        },
+        {
+          "peca": "Agravo interno",
+          "base_legal": "Art. 1.021 do CPC",
+          "quando": "se houve decisão monocrática do relator (ex.: art. 932) e se pretende levar a questão ao colegiado",
+          "observacoes": "Prazo de referência: 15 dias (art. 1.070 c/c art. 1.003, §5º; o art. 1.021, §2º trata do prazo do agravado); em dobro p/ Fazenda, MP, Defensoria e litisconsortes com procuradores distintos em autos físicos (arts. 180, 183, 186, 229). Exige impugnação específica (art. 1.021, §1º); vedado ao relator julgar improcedente reproduzindo os fundamentos da decisão agravada (§3º); multa de 1% a 5% do valor atualizado da causa se manifestamente inadmissível ou improcedente por votação unânime (§4º), cujo depósito prévio condiciona novo recurso, salvo Fazenda Pública e gratuidade (§5º)."
+        },
+        {
+          "peca": "Recurso especial",
+          "base_legal": "Art. 105, III, \"a\" a \"c\", da CF e arts. 1.029 e 1.030 do CPC",
+          "quando": "contra acórdão de TRF ou TJ, em única ou última instância (não cabe contra turma recursal de juizado — Súmula 203/STJ), quando a decisão contrariar tratado ou lei federal ou negar-lhes vigência, julgar válido ato de governo local contestado em face de lei federal, ou der a lei federal interpretação divergente da de outro tribunal, exigidos prequestionamento (Súmula 211/STJ) e esgotamento das instâncias ordinárias (Súmula 207/STJ)",
+          "observacoes": "Prazo de referência: 15 dias (art. 1.003, §5º), em dobro para Fazenda Pública, MP e Defensoria (arts. 180, 183 e 186); interposto perante o presidente/vice do tribunal recorrido (art. 1.029, caput); sem efeito suspensivo automático (art. 995); não revolve fatos e provas (Súmula 7/STJ); dissídio exige cotejo analítico (art. 1.029, §1º)"
+        },
+        {
+          "peca": "Contrarrazões ao recurso interposto",
+          "base_legal": "Arts. 1.010, §1º, e 1.030, caput, do CPC",
+          "quando": "se a parte contrária interpôs recurso e houve intimação para resposta",
+          "observacoes": "Prazo de referência: 15 dias (art. 1.003, §5º, CPC, que prevê expressamente o prazo para responder aos recursos; para apelação, art. 1.010, §1º; para RE/REsp, art. 1.030, caput). Exceção: embargos de declaração — manifestação do embargado em 5 dias, apenas se possível efeito modificativo (art. 1.023, §2º). Prazo em dobro para Fazenda Pública, MP e Defensoria (arts. 180, 183 e 186) e para litisconsortes com procuradores distintos em autos físicos (art. 229, caput e §2º). Legitimidade do recorrido."
+        },
+        {
+          "peca": "Recurso extraordinário",
+          "base_legal": "Art. 102, III e §3º, da CF; arts. 1.029 e 1.035 do CPC",
+          "quando": "se há questão constitucional decidida em última ou única instância, com prequestionamento (Súmulas 282/356 do STF; art. 1.025 do CPC) e repercussão geral demonstrada",
+          "observacoes": "Prazo de referência: 15 dias (art. 1.003, §5º, do CPC), em dobro para Fazenda Pública, MP e Defensoria (arts. 183, 180 e 186). Repercussão geral em preliminar formal é requisito de admissibilidade (CF, art. 102, §3º; CPC, art. 1.035, §2º; RISTF, art. 327)."
+        },
+        {
+          "peca": "Agravo de instrumento",
+          "base_legal": "Art. 1.015 do CPC",
+          "quando": "contra decisão interlocutória nas hipóteses do rol legal (tutelas provisórias, mérito parcial, gratuidade etc.) e nas fases de liquidação/cumprimento/execução/inventário (parágrafo único); fora do rol, só se demonstrada urgência que torne inútil o julgamento diferido na apelação (STJ, Tema 988 — taxatividade mitigada)",
+          "observacoes": "Prazo de referência: 15 dias úteis (art. 1.003, §5º); em dobro para Fazenda, MP e Defensoria (arts. 180, 183 e 186) e litisconsortes com procuradores distintos em autos físicos (art. 229); requisitos formais do art. 1.017; interlocutórias não agraváveis não precluem — impugnáveis em preliminar de apelação (art. 1.009, §1º)"
+        },
+        {
+          "peca": "Apelação",
+          "base_legal": "Arts. 1.009 e 1.010 do CPC",
+          "quando": "se houve sentença e a intimação é recente, para devolver ao tribunal as questões decididas (efeito devolutivo, art. 1.013)",
+          "observacoes": "Prazo de referência: 15 dias ÚTEIS (Art. 1.003, §5º c/c art. 219); em DOBRO para Fazenda Pública, MP e Defensoria (arts. 183, 180 e 186) e para litisconsortes com procuradores distintos de escritórios diferentes (art. 229 — inaplicável em autos eletrônicos, §2º); exige preparo sob pena de deserção (art. 1.007); questões interlocutórias não agraváveis devem ser impugnadas em preliminar de apelação ou contrarrazões (Art. 1.009, §1º) — senão preclusão."
+        },
+        {
+          "peca": "Contrarrazões de apelação",
+          "base_legal": "Art. 1.010, §1º, do CPC",
+          "quando": "após intimação do apelado para responder ao recurso da parte contrária",
+          "observacoes": "Prazo de referência: 15 dias (dias úteis, art. 219; em dobro p/ Fazenda, MP, Defensoria — arts. 183, 180, 186 — e litisconsortes com procuradores distintos em autos físicos, art. 229); mesmo prazo para o recurso adesivo (art. 997, §2º, I e II) e sede para impugnar interlocutórias não agraváveis (art. 1.009, §1º; se suscitadas, o recorrente é intimado a se manifestar em 15 dias — art. 1.009, §2º)."
+        },
+        {
+          "peca": "Recurso especial / recurso extraordinário",
+          "base_legal": "Art. 1.029 do CPC c/c Art. 105, III, da CF (REsp) e Art. 102, III e §3º, da CF (RE)",
+          "quando": "REsp: contra acórdão de única ou última instância de TRF ou TJ que contrariar/negar vigência a tratado ou lei federal, julgar válido ato de governo local em face de lei federal ou der interpretação divergente à lei federal (não cabe contra turma recursal de juizado — Súmula 203/STJ); RE: contra causa decidida em única ou última instância (inclusive turma recursal) que contrarie a CF, com repercussão geral",
+          "observacoes": "Prazo de referência: 15 dias (art. 1.003, §5º, CPC), em dobro para Fazenda/MP/Defensoria (arts. 180, 183 e 186); exigem prequestionamento (Súmulas 282/356 STF e 211 STJ; art. 1.025 CPC = prequestionamento ficto via embargos) e esgotamento das instâncias ordinárias; RE exige preliminar de repercussão geral (art. 1.035 CPC e art. 102, §3º, CF); sem efeito suspensivo automático (art. 995 c/c art. 1.029, §5º, CPC); vedado reexame de fatos e provas (Súmulas 7/STJ e 279/STF)"
+        }
+      ]
+    },
+    {
+      "area": "civil",
+      "fase_id": "execucao",
+      "fase": "Cumprimento de sentença / execução",
+      "ordem": 6,
+      "pecas": [
+        {
+          "peca": "Requerimento de cumprimento definitivo de sentença (quantia certa)",
+          "base_legal": "Art. 523 do CPC",
+          "quando": "se há título executivo judicial líquido E exigível — trânsito em julgado (ou decisão sobre parcela incontroversa) — e o credor quer iniciar a execução; sem trânsito em julgado, cabe cumprimento provisório (arts. 520-522)",
+          "observacoes": "Depende de requerimento do exequente (arts. 513, §1º, e 523, caput), instruído com demonstrativo (art. 524). Devedor intimado (art. 513, §2º; na pessoa do devedor se requerido após 1 ano do trânsito, §4º) a pagar em 15 dias úteis — prazo de pagamento, sem dobro do art. 229 —, sob pena de multa de 10% e honorários de 10% (art. 523, §1º) e penhora imediata (§3º). Se ilíquido, antes cabe liquidação (arts. 509 e ss.). Contra a Fazenda Pública o rito é o dos arts. 534-535 e a multa do §1º não incide (art. 534, §2º)."
+        },
+        {
+          "peca": "Petição simples do executado (validade dos atos executivos e fatos supervenientes)",
+          "base_legal": "Art. 518 do CPC",
+          "quando": "se a questão surgiu após o prazo da impugnação ou diz respeito à validade do procedimento executivo em curso",
+          "observacoes": "Questões relativas à validade do procedimento de cumprimento e dos atos executivos subsequentes podem ser arguidas nos próprios autos por simples petição (art. 518). Via usual para matérias de ordem pública sem dilação probatória."
+        },
+        {
+          "peca": "Impugnação ao cumprimento de sentença",
+          "base_legal": "Art. 525 do CPC",
+          "quando": "se o executado foi intimado, transcorreu o prazo de pagamento voluntário (art. 523) e ele pretende se defender nos próprios autos",
+          "observacoes": "Prazo de referência: 15 dias após o fim do prazo de pagamento, independentemente de penhora ou nova intimação (art. 525, caput). Matérias limitadas ao rol do art. 525, §1º; fatos supervenientes e vícios de penhora/avaliação podem ser arguidos por simples petição (§11). Sem efeito suspensivo automático — depende de requerimento, garantia do juízo e fundamentos relevantes (§6º). Aplica-se o prazo em dobro do art. 229 (litisconsortes com procuradores distintos, autos físicos) por força do §3º. Fazenda Pública segue regime próprio: art. 535 (30 dias)."
+        },
+        {
+          "peca": "Requerimento de penhora de ativos financeiros (Sisbajud)",
+          "base_legal": "Art. 854 do CPC",
+          "quando": "se o executado não pagou e o exequente busca constrição de dinheiro em depósito ou aplicação financeira",
+          "observacoes": "Indisponibilidade decretada sem ciência prévia do executado (art. 854, caput); executado tem 5 dias para arguir impenhorabilidade ou excesso após a intimação (art. 854, §3º). Dinheiro tem prioridade na ordem de penhora (art. 835, I)."
+        },
+        {
+          "peca": "Requerimento de cumprimento provisório de sentença",
+          "base_legal": "Arts. 520 a 522 do CPC",
+          "quando": "se a sentença é impugnada por recurso desprovido de efeito suspensivo (art. 520, caput)",
+          "observacoes": "Corre por iniciativa e responsabilidade do exequente — responsabilidade objetiva na leitura consolidada (art. 520, I: obriga-se a reparar os danos se a sentença for reformada); levantamento de dinheiro e atos de transferência de posse/alienação exigem, em regra, caução idônea arbitrada pelo juiz (art. 520, IV), dispensável nas hipóteses do art. 521 (salvo risco de grave dano — parágrafo único); multa e honorários do art. 523, §1º incidem no cumprimento provisório de sentença condenatória ao pagamento de QUANTIA CERTA (art. 520, §2º), podendo o executado depositar o valor só para isentar-se da multa sem incompatibilidade com o recurso (art. 520, §3º); requerimento dirigido ao juízo competente e instruído com as peças do art. 522, parágrafo único, quando os autos não forem eletrônicos."
+        },
+        {
+          "peca": "Agravo de instrumento (interlocutórias do cumprimento de sentença)",
+          "base_legal": "Art. 1.015, parágrafo único, do CPC",
+          "quando": "se houve qualquer decisão interlocutória na fase de cumprimento de sentença (ex.: rejeição da impugnação sem extinção, penhora, avaliação)",
+          "observacoes": "Prazo de referência: 15 dias úteis (art. 1.003, §5º), em dobro para Fazenda Pública, MP e Defensoria (arts. 183, 180 e 186) e para litisconsortes com procuradores distintos de escritórios diferentes (art. 229 — inaplicável em autos eletrônicos, §2º). Na fase de cumprimento o cabimento é amplo, sem as restrições do rol do caput (art. 1.015, parágrafo único). Decisão que extingue a execução desafia apelação (art. 1.009). Interlocutória não agravada de imediato nessa fase preclui (não há a recuperação em preliminar de apelação do art. 1.009, §1º, típica da fase de conhecimento)."
+        },
+        {
+          "peca": "Exceção de pré-executividade",
+          "base_legal": "Art. 803, parágrafo único, do CPC e Súmula 393 do STJ (enunciado literal sobre execução fiscal, estendido pela jurisprudência às execuções civis e ao cumprimento de sentença)",
+          "quando": "para arguir matérias de ordem pública conhecíveis de ofício que não demandem dilação probatória, a qualquer tempo enquanto pendente a execução",
+          "observacoes": "Construção consolidada na jurisprudência; simples petição nos autos, não exige garantia do juízo nem se sujeita ao prazo dos embargos/impugnação; limitada a prova pré-constituída; vedada a reiteração de matéria já decidida em exceção anterior (preclusão consumativa)."
+        },
+        {
+          "peca": "Requerimento de cumprimento de sentença (quantia certa)",
+          "base_legal": "Arts. 523 e 524 do CPC (c/c art. 513, §§1º-2º)",
+          "quando": "se há título judicial líquido (ou já liquidado) e o credor quer iniciar a satisfação — o cumprimento por quantia certa depende de requerimento do exequente (art. 513, §1º)",
+          "observacoes": "Exige demonstrativo discriminado e ATUALIZADO do débito (art. 524); executado intimado tem 15 dias ÚTEIS para pagar, sob pena de multa de 10% e honorários de 10% (art. 523, §1º) e expedição imediata de mandado de penhora e avaliação (§3º); provisório segue os arts. 520-522; contra a Fazenda Pública o regime é dos arts. 534-535 (sem a multa do §1º); pretensão executiva prescreve no mesmo prazo da ação (Súmula 150/STF)."
+        },
+        {
+          "peca": "Petição inicial de execução de título extrajudicial",
+          "base_legal": "Arts. 798 e 799 do CPC (c/c arts. 783 e 784)",
+          "quando": "se o credor possui título executivo extrajudicial (rol do art. 784) representativo de obrigação certa, líquida e exigível (art. 783)",
+          "observacoes": "Processo autônomo de execução. Instruir com o título e, na execução por quantia certa, o demonstrativo do débito atualizado (art. 798, I, \"a\" e \"b\"); executado citado para pagar em 3 dias (art. 829) — na entrega de coisa o prazo é de 15 dias (art. 806) e na obrigação de fazer é o do título ou o fixado pelo juiz (art. 815)."
+        },
+        {
+          "peca": "Embargos à execução",
+          "base_legal": "Arts. 914 e 915 do CPC",
+          "quando": "Defesa do executado na execução de TÍTULO EXTRAJUDICIAL, independentemente de penhora, depósito ou caução (art. 914, caput); no cumprimento de sentença a defesa é a impugnação (art. 525)",
+          "observacoes": "Prazo: 15 dias contados na forma do art. 231 (termo inicial varia conforme a modalidade de citação — nem sempre \"juntada\"); com vários executados, prazo de cada um corre da juntada do respectivo comprovante de citação, salvo cônjuges/companheiros (art. 915, §1º); NÃO se aplica o prazo em dobro do art. 229 para litisconsortes com procuradores distintos (art. 915, §3º); cognição ampla (art. 917, VI); sem efeito suspensivo automático — depende de requerimento, requisitos de tutela provisória E garantia do juízo (art. 919, §1º); rejeição liminar se intempestivos ou protelatórios (art. 918)."
+        },
+        {
+          "peca": "Pedido de substituição do bem penhorado",
+          "base_legal": "Art. 847 do CPC",
+          "quando": "se o executado comprovar que a troca lhe será menos onerosa e não trará prejuízo ao exequente (ônus do executado, requisitos do art. 847, §§1º-2º)",
+          "observacoes": "Prazo de referência: 10 dias da intimação da penhora (art. 847, caput); substituição por dinheiro é prioritária (art. 835, I e §1º) e fiança bancária/seguro-garantia judicial equiparam-se a dinheiro DESDE QUE em valor não inferior ao débito acrescido de 30% (art. 835, §2º; art. 848, p.ú.) — para essas modalidades a jurisprudência afasta a preclusão do decêndio; imóvel exige anuência do cônjuge, salvo separação absoluta (art. 847, §3º); exequente será ouvido (art. 847, §4º); após o prazo, substituição por outros bens só nas hipóteses do art. 848."
+        }
+      ]
+    },
+    {
+      "area": "penal",
+      "fase_id": "inquerito",
+      "fase": "Inquérito policial",
+      "ordem": 1,
+      "pecas": [
+        {
+          "peca": "Pedido de relaxamento de prisão em flagrante",
+          "base_legal": "Art. 5º, LXV, da CF e Art. 310, I, do CPP",
+          "quando": "se houve prisão em flagrante com vício formal ou material (ilegalidade)",
+          "observacoes": "Apreciação na audiência de custódia (Art. 310, caput, CPP — em até 24h da prisão, prazo de referência); legitimidade do preso, defensor ou qualquer pessoa para comunicar a ilegalidade."
+        },
+        {
+          "peca": "Pedido de liberdade provisória (com ou sem fiança/cautelares)",
+          "base_legal": "Art. 310, III, e Art. 321 do CPP",
+          "quando": "se há flagrante legal (não relaxado) e ausentes os requisitos da prisão preventiva (Art. 312 do CPP)",
+          "observacoes": "Pode ser cumulado com medidas cautelares diversas da prisão (Art. 319 do CPP); não preclui — renovável diante de fato novo; atenção à vedação do Art. 310, §2º (reincidente, organização criminosa armada/milícia, arma de uso restrito — juiz deverá denegar, constitucionalidade discutida); nos crimes com pena máxima ≤ 4 anos a fiança pode ser arbitrada pelo próprio delegado (Art. 322 do CPP), dispensando pedido judicial."
+        },
+        {
+          "peca": "Requerimento de diligências à autoridade policial",
+          "base_legal": "Art. 14 do CPP (c/c art. 7º, XXI, EOAB)",
+          "quando": "se o investigado/indiciado ou o ofendido (ou seu representante legal) pretende a produção de diligência durante o inquérito",
+          "observacoes": "Realização fica a juízo da autoridade policial (não vincula), SALVO exame de corpo de delito, que não pode ser indeferido (art. 184 do CPP); ver também direito de acesso da defesa aos elementos já documentados (Súmula Vinculante 14)."
+        },
+        {
+          "peca": "Requerimento de acordo de não persecução penal (ANPP)",
+          "base_legal": "Art. 28-A do CPP",
+          "quando": "se há confissão formal e circunstanciada, crime sem violência ou grave ameaça e pena mínima inferior a 4 anos (aferida com as causas de aumento e diminuição do caso concreto — §1º), em regra antes do oferecimento da denúncia",
+          "observacoes": "Proposta é faculdade do MP (\"necessário e suficiente para reprovação e prevenção do crime\" — não é direito subjetivo do investigado); recusa pode ser submetida à instância revisional do MP (Art. 28-A, §14, c/c art. 28, CPP); vedações do §2º (transação penal cabível, reincidente/habitual, benefício análogo nos 5 anos anteriores, violência doméstica/contra a mulher) devem ser conferidas; STF admite ANPP também em processos em curso quando da vigência da Lei 13.964/2020 (HC 185.913)."
+        },
+        {
+          "peca": "Pedido de revogação de prisão preventiva ou temporária",
+          "base_legal": "Art. 316 do CPP (preventiva); Art. 2º da Lei 7.960/1989 (temporária)",
+          "quando": "se há prisão cautelar decretada e cessaram os motivos que a justificaram",
+          "observacoes": "A preventiva deve ser revisada a cada 90 dias pelo órgão emissor (Art. 316, parágrafo único, CPP — prazo de referência); pedido renovável a qualquer tempo."
+        },
+        {
+          "peca": "Habeas corpus (inclusive para trancamento do inquérito)",
+          "base_legal": "Art. 5º, LXVIII, da CF e Arts. 647 e 648 do CPP",
+          "quando": "se há constrangimento ilegal à liberdade de locomoção, atual ou iminente (ex.: investigação por fato atípico)",
+          "observacoes": "Sem prazo; legitimidade universal (qualquer pessoa pode impetrar, Art. 654 do CPP); trancamento é medida excepcional na jurisprudência."
+        },
+        {
+          "peca": "Pedido de liberdade provisória (com ou sem fiança)",
+          "base_legal": "Art. 310, III, e Art. 321 do CPP",
+          "quando": "se houve prisão em flagrante e estão ausentes os requisitos da prisão preventiva (Art. 312 do CPP)",
+          "observacoes": "Legitimidade: defesa. Pode cumular com pedido de medidas cautelares diversas da prisão (Art. 319 do CPP). Apreciação típica na audiência de custódia (Art. 310, caput, do CPP)."
+        },
+        {
+          "peca": "Pedido de relaxamento de prisão",
+          "base_legal": "Art. 5º, LXV, da CF e Art. 310, I, do CPP",
+          "quando": "se a prisão é ilegal (flagrante forjado, inobservância de formalidades, excesso de prazo na custódia)",
+          "observacoes": "Legitimidade: defesa. Não se confunde com liberdade provisória (que pressupõe prisão legal). Cabível a qualquer tempo enquanto durar a ilegalidade."
+        },
+        {
+          "peca": "Acordo de não persecução penal (ANPP) — proposta ou requerimento de designação de audiência",
+          "base_legal": "Art. 28-A do CPP",
+          "quando": "se não é caso de arquivamento, o investigado confessou formal e circunstanciadamente e a infração foi cometida sem violência ou grave ameaça, com pena mínima inferior a 4 anos (computadas causas de aumento e diminuição, § 1º), sendo o acordo necessário e suficiente para reprovação e prevenção do crime",
+          "observacoes": "Legitimidade da proposta: Ministério Público (discricionariedade regrada — não é direito subjetivo do investigado). Se o MP recusar, a defesa pode requerer remessa ao órgão revisor (Art. 28-A, § 14, do CPP). Vedações no § 2º do Art. 28-A (transação penal cabível, reincidência/habitualidade, benefício anterior em 5 anos, violência doméstica ou contra a mulher). STF (HC 185.913/2024): cabível enquanto não houver trânsito em julgado."
+        },
+        {
+          "peca": "Promoção de arquivamento do inquérito",
+          "base_legal": "Art. 28 do CPP",
+          "quando": "quando o Ministério Público conclui pela ausência de elementos para a ação penal (falta de justa causa, atipicidade ou extinção da punibilidade)",
+          "observacoes": "Legitimidade: Ministério Público (peça típica de gabinete de promotoria). O procedimento de revisão do Art. 28 teve a redação da Lei 13.964/2019 modulada pelo STF (ADIs 6.298 a 6.305) — conferir o rito vigente no tribunal local. Atenção: a vítima ou seu representante legal pode submeter o arquivamento à revisão da instância competente do MP em 30 dias da comunicação (art. 28, §1º); em crimes contra União/Estados/Municípios, a chefia do órgão de representação judicial também pode provocar a revisão (§2º)."
+        },
+        {
+          "peca": "Habeas corpus (liberatório ou preventivo)",
+          "base_legal": "Art. 5º, LXVIII, da CF e Arts. 647 e 648 do CPP",
+          "quando": "se há constrangimento ilegal, atual ou iminente, à liberdade de locomoção (inclusive para trancamento de inquérito sem justa causa — Art. 648, I, do CPP)",
+          "observacoes": "Legitimidade universal: qualquer pessoa pode impetrar (Art. 654 do CPP), inclusive sem advogado. Sem prazo; não cabe quando não há risco, nem em tese, à liberdade de ir e vir, nem contra o mérito de punição disciplinar militar (Art. 647 do CPP e Art. 142, §2º, da CF)."
+        }
+      ]
+    },
+    {
+      "area": "penal",
+      "fase_id": "acao-proposta",
+      "fase": "Ação penal proposta",
+      "ordem": 2,
+      "pecas": [
+        {
+          "peca": "Defesa preliminar (crimes funcionais)",
+          "base_legal": "Art. 514 do CPP",
+          "quando": "se o réu é funcionário público (ainda no cargo) acusado de crime funcional típico e afiançável, antes do recebimento da denúncia",
+          "observacoes": "Prazo de referência: 15 dias da notificação (Art. 514, caput, CPP); jurisprudência do STJ dispensa quando a denúncia é lastreada em inquérito (Súmula 330 do STJ), mas o STF diverge — conferir o caso; a falta da notificação é nulidade relativa (exige arguição oportuna e demonstração de prejuízo); rito inaplicável se o acusado já deixou o cargo ou se há corréu não funcionário"
+        },
+        {
+          "peca": "Resposta à acusação",
+          "base_legal": "Arts. 396 e 396-A do CPP",
+          "quando": "após a citação, no prazo de 10 dias, nos procedimentos ordinário e sumário",
+          "observacoes": "Prazo de referência: 10 dias da citação (Art. 396, caput, CPP); na citação por edital o prazo flui do comparecimento pessoal do acusado ou do defensor constituído (Art. 396, parágrafo único); prazo em dobro para a Defensoria Pública (LC 80/94, arts. 44, I, 89, I e 128, I); peça obrigatória — se não apresentada ou se o acusado citado não constituir defensor, o juiz nomeia defensor para oferecê-la, com vista dos autos por 10 dias (Art. 396-A, §2º); momento próprio para arguir preliminares, oferecer documentos, especificar provas e arrolar testemunhas, sob pena de preclusão (Art. 396-A, caput)."
+        },
+        {
+          "peca": "Exceções (suspeição, incompetência, litispendência, ilegitimidade de parte, coisa julgada)",
+          "base_legal": "Arts. 95 a 112 do CPP",
+          "quando": "se presente alguma das hipóteses do Art. 95, arguíveis em peça apartada junto com a resposta à acusação",
+          "observacoes": "Processamento em apartado (Art. 396-A, §1º, CPP); suspeição deve ser arguida na primeira oportunidade, sob pena de preclusão (exceto matéria de ordem pública, como incompetência absoluta)."
+        },
+        {
+          "peca": "Manifestação sobre proposta de suspensão condicional do processo",
+          "base_legal": "Art. 89 da Lei 9.099/1995",
+          "quando": "se a pena mínima cominada é igual ou inferior a 1 ano (computadas majorantes e somas de concurso/continuidade — Súmulas 723/STF e 243/STJ) e o MP ofereceu (ou deveria ter oferecido) a proposta",
+          "observacoes": "Recusa injustificada do MP pode ser remetida ao órgão revisional (aplicação analógica do Art. 28 do CPP — Súmula 696 do STF); requisitos subjetivos do Art. 89 (não estar sendo processado nem condenado por outro crime + requisitos do sursis) devem ser conferidos; a aceitação é ato pessoal do acusado com defensor perante o juiz (§ 1º) — a manifestação escrita não a substitui."
+        },
+        {
+          "peca": "Habeas corpus para trancamento da ação penal",
+          "base_legal": "Arts. 647 e 648, I e VII, do CPP",
+          "quando": "se, de plano e sem necessidade de dilação probatória, falta justa causa, o fato é manifestamente atípico ou está extinta a punibilidade",
+          "observacoes": "Medida excepcional segundo a jurisprudência; exige prova pré-constituída; não substitui a resposta à acusação nem suspende automaticamente o prazo dela; incabível se não houver risco, nem em tese, à liberdade de locomoção (Súmula 693/STF — ex.: crime punido exclusivamente com multa), caso em que a via é o mandado de segurança."
+        },
+        {
+          "peca": "Pedido de revogação de prisão preventiva / liberdade provisória",
+          "base_legal": "Arts. 316 e 321 do CPP",
+          "quando": "se o réu está preso cautelarmente e cessaram ou inexistem os requisitos do Art. 312 do CPP",
+          "observacoes": "Renovável a qualquer tempo diante de fato novo; revisão obrigatória a cada 90 dias pelo órgão emissor, de ofício (Art. 316, parágrafo único, CPP) — STF, SL 1.395 (Pleno, 2020): a superação do prazo não gera revogação automática, devendo o juízo ser instado a reavaliar a prisão."
+        },
+        {
+          "peca": "Proposta / manifestação sobre suspensão condicional do processo",
+          "base_legal": "Art. 89 da Lei 9.099/95",
+          "quando": "no oferecimento da denúncia, se a pena mínima cominada é igual ou inferior a 1 ano e o acusado preenche os requisitos",
+          "observacoes": "Legitimidade da proposta: MP (Súmula 696/STF em caso de recusa injustificada). Aceitação exige acusado + defensor. Súmula 243/STJ afasta o benefício em concurso quando o somatório mínimo excede 1 ano."
+        },
+        {
+          "peca": "Denúncia",
+          "base_legal": "Arts. 41 e 46 do CPP",
+          "quando": "quando o Ministério Público, em ação penal pública (na condicionada, presente a representação/requisição), entende presentes justa causa e condições da ação",
+          "observacoes": "Legitimidade privativa do MP (Art. 129, I, CF), ressalvada a ação penal privada subsidiária em caso de inércia (Art. 5º, LIX, CF; Art. 29 do CPP). Prazo de referência: 5 dias (réu preso) ou 15 dias (réu solto), contado do recebimento dos autos pelo MP — Art. 46 do CPP; prazo impróprio (descumprimento não gera nulidade). Rejeição pelas hipóteses do Art. 395 do CPP."
+        },
+        {
+          "peca": "Queixa-crime",
+          "base_legal": "Arts. 30 e 44 do CPP",
+          "quando": "em ação penal privada (exclusiva, personalíssima ou subsidiária da pública — art. 29 do CPP), se o ofendido, seu representante legal ou, em caso de morte, cônjuge/ascendente/descendente/irmão (art. 31 do CPP) quer processar o querelado",
+          "observacoes": "Exige procuração com poderes especiais contendo o nome do querelante e a menção do fato criminoso (Art. 44 do CPP) — a omissão é causa recorrente de rejeição. Prazo decadencial de referência: 6 meses do conhecimento da autoria (Art. 38, caput, do CPP); 12 meses em crimes de violência doméstica e familiar contra a mulher (Art. 38, §2º); na subsidiária, conta do esgotamento do prazo para a denúncia. Atenção à indivisibilidade (Art. 48 do CPP): a queixa contra um autor obriga ao processo de todos, sob fiscalização do MP."
+        }
+      ]
+    },
+    {
+      "area": "penal",
+      "fase_id": "instrucao",
+      "fase": "Instrução",
+      "ordem": 3,
+      "pecas": [
+        {
+          "peca": "Pedido de absolvição sumária",
+          "base_legal": "Art. 397 do CPP",
+          "quando": "se, após a resposta à acusação, verifica-se de forma MANIFESTA excludente de ilicitude ou de culpabilidade (salvo inimputabilidade), atipicidade evidente ou extinção da punibilidade — tese que dependa de dilação probatória não autoriza a absolvição sumária",
+          "observacoes": "Normalmente veiculado na própria resposta à acusação (art. 396-A); o juiz pode absolver sumariamente de ofício e não há preclusão da matéria; a ressalva da inimputabilidade impede absolvição imprópria nesta fase; decisão que absolve sumariamente desafia apelação pela acusação (art. 593, I, CPP)."
+        },
+        {
+          "peca": "Requerimento de provas e rol de testemunhas",
+          "base_legal": "Arts. 396-A e 401 do CPP",
+          "quando": "na resposta à acusação (momento próprio) ou, excepcionalmente, como prova cujo conhecimento é superveniente",
+          "observacoes": "Até 8 testemunhas no rito ordinário (Art. 401, caput, CPP); não arrolar na resposta gera preclusão, ressalvadas testemunhas do juízo (Art. 209 do CPP)."
+        },
+        {
+          "peca": "Incidente de insanidade mental do acusado",
+          "base_legal": "Art. 149 do CPP",
+          "quando": "se há dúvida razoável sobre a integridade mental do acusado ao tempo do fato ou atual (doença superveniente)",
+          "observacoes": "Legitimados (rol do art. 149, caput): juiz de ofício, MP, defensor, curador, ascendente, descendente, irmão ou cônjuge do acusado — o ofendido NÃO tem legitimidade. Determinado o exame, o juiz nomeia curador e o processo fica suspenso se já iniciada a ação penal, salvo quanto às diligências que possam ser prejudicadas pelo adiamento (art. 149, §2º, CPP); a suspensão do processo NÃO suspende a prescrição. Cabível em qualquer fase, inclusive no inquérito, mediante representação da autoridade policial (art. 149, §1º); processa-se em auto apartado (art. 153) e, se a doença mental sobreveio à infração, o processo segue suspenso até o restabelecimento (art. 152)."
+        },
+        {
+          "peca": "Pedido de desentranhamento de prova ilícita",
+          "base_legal": "Art. 157 do CPP e Art. 5º, LVI, da CF",
+          "quando": "se há nos autos prova obtida em violação a normas constitucionais ou legais, ou dela derivada",
+          "observacoes": "Alcança derivadas, salvo ausência de nexo causal ou fonte independente (Art. 157, §§1º e 2º, CPP); preclusa a decisão de desentranhamento, a prova é inutilizada por decisão judicial (§3º); a arguição de ilicitude é matéria de ordem pública e não preclui, podendo ser renovada em alegações finais e apelação; juiz que conhecer do conteúdo da prova inadmissível não profere a sentença (§5º, sem impedimento automático conforme STF, ADIs 6.298 e ss.)"
+        },
+        {
+          "peca": "Requerimento de diligências complementares (fase do Art. 402)",
+          "base_legal": "Art. 402 do CPP",
+          "quando": "ao final da instrução em audiência, se surgiu necessidade de diligência decorrente de circunstância apurada na instrução",
+          "observacoes": "Momento próprio é a própria audiência, sob pena de preclusão; deferimento condicionado à pertinência com fatos apurados na instrução."
+        },
+        {
+          "peca": "Pedido de revogação/reexame da prisão preventiva",
+          "base_legal": "Art. 316 do CPP",
+          "quando": "se o réu permanece preso e os fundamentos da preventiva se esvaziaram no curso da instrução",
+          "observacoes": "Revisão de ofício a cada 90 dias pelo órgão emissor (Art. 316, parágrafo único, CPP — prazo de referência); excesso de prazo da instrução é fundamento recorrente (via também de habeas corpus, Art. 648, II, CPP)."
+        },
+        {
+          "peca": "Habeas corpus por excesso de prazo",
+          "base_legal": "Art. 648, II, do CPP (c/c art. 647 do CPP e art. 5º, LXVIII, da CF)",
+          "quando": "se o réu está preso e a instrução extrapola, sem justificativa, os prazos de duração razoável",
+          "observacoes": "Jurisprudência avalia globalmente a razoabilidade (não soma aritmética de prazos). Súmula 52/STJ: encerrada a instrução, fica superada a alegação de excesso. Súmula 64/STJ: excesso provocado pela defesa não constitui constrangimento ilegal. No rito do júri, a pronúncia também supera o excesso na instrução (Súmula 21/STJ). Legitimidade universal: qualquer pessoa pode impetrar, sem advogado."
+        },
+        {
+          "peca": "Requerimento de diligências complementares",
+          "base_legal": "Art. 402 do CPP",
+          "quando": "ao final da audiência de instrução (procedimento comum ordinário), quando a necessidade da prova se originar de circunstâncias ou fatos apurados na própria instrução",
+          "observacoes": "Legitimidade: MP, querelante, assistente e acusado (acusação e defesa). Requerimento em regra oral, na própria audiência. Momento preclusivo: o encerramento da audiência — não requerida ali, preclui. Deve demonstrar o vínculo com fato/circunstância nova da instrução (não serve para suprir prova não arrolada a tempo). Se deferido, memoriais em 5 dias após a conclusão das diligências (art. 404 do CPP)."
+        },
+        {
+          "peca": "Pedido de revogação ou substituição da prisão preventiva",
+          "base_legal": "Art. 316 e Art. 282, §§ 5º e 6º, do CPP",
+          "quando": "quando cessaram ou se enfraqueceram os motivos que fundamentaram a cautelar, ou quando medida diversa (art. 319) se tornou adequada e suficiente",
+          "observacoes": "Sem prazo nem preclusão — pode ser renovado com fato novo (rebus sic stantibus). O parágrafo único do art. 316 impõe revisão de ofício da necessidade da preventiva a cada 90 dias pelo órgão emissor da decisão, mas o STF (ADIs 6.581/6.582; SL 1.395) fixou que o excesso do prazo nonagesimal NÃO acarreta revogação automática da prisão — deve-se provocar o juízo a reavaliar — e que a revisão obrigatória vale até o encerramento da fase de conhecimento, não se aplicando aos tribunais em via recursal."
+        },
+        {
+          "peca": "Alegações finais (orais ou por memoriais)",
+          "base_legal": "Art. 403, caput e § 3º, do CPP",
+          "quando": "encerrada a instrução — orais na própria audiência ou, considerada a complexidade do caso OU o número de acusados, por memoriais escritos",
+          "observacoes": "Prazo de referência dos memoriais: 5 dias sucessivos (Art. 403, § 3º, CPP), em dobro para a Defensoria Pública (LC 80/94); juiz sentencia em 10 dias. Peça central de mérito para ambos os polos; a ausência de alegações da DEFESA gera nulidade (Súmula 523/STF) — a omissão da acusação não anula."
+        },
+        {
+          "peca": "Incidente de insanidade mental",
+          "base_legal": "Art. 149 do CPP",
+          "quando": "se há dúvida razoável sobre a integridade mental do acusado ao tempo do fato ou no curso do processo",
+          "observacoes": "Pode ser suscitado por qualquer das partes, pelo juiz de ofício ou até pela autoridade policial (Art. 149, § 1º). Suspende o processo (Art. 149, § 2º), salvo diligências urgentes."
+        }
+      ]
+    },
+    {
+      "area": "penal",
+      "fase_id": "decisoria",
+      "fase": "Decisória",
+      "ordem": 4,
+      "pecas": [
+        {
+          "peca": "Embargos de declaração contra a sentença",
+          "base_legal": "Art. 382 do CPP",
+          "quando": "se a sentença contém ambiguidade, obscuridade, contradição ou omissão",
+          "observacoes": "Prazo de referência: 2 dias da intimação (Art. 382 do CPP); Defensoria Pública tem prazo em dobro (art. 5º, §5º, LC 80/94); orientação dominante do STJ: interrompem o prazo para os demais recursos (art. 1.026 do CPC c/c art. 3º do CPP), salvo embargos manifestamente protelatórios ou intempestivos."
+        },
+        {
+          "peca": "Memoriais escritos",
+          "base_legal": "Art. 403, §3º, do CPP",
+          "quando": "se o juiz converteu os debates orais em memoriais, dada a complexidade do caso ou o número de acusados",
+          "observacoes": "Prazo de referência: 5 dias, sucessivos (acusação → assistente da acusação → defesa), não simultâneos (Art. 403, §3º, CPP); Defensoria Pública tem prazo em dobro (LC 80/94, arts. 44, I, 89, I e 128, I); a defesa fala por último — inversão gera nulidade por violação ao contraditório e à ampla defesa (STF, HC 87.926); após os memoriais, o juiz tem 10 dias para sentenciar."
+        },
+        {
+          "peca": "Manifestação sobre aditamento da denúncia (mutatio libelli)",
+          "base_legal": "Art. 384 do CPP",
+          "quando": "se o MP aditou a denúncia por prova, existente nos autos, de elemento ou circunstância da infração penal não contida na acusação original",
+          "observacoes": "Prazo de referência: 5 dias para a defesa se manifestar sobre o aditamento (art. 384, §2º, CPP) — em dobro para a Defensoria Pública (LC 80/94, art. 128, I) —, com possibilidade de arrolar até 3 testemunhas em 5 dias (art. 384, §4º); admitido o aditamento, reabrem-se instrução e debates, e o juiz fica adstrito aos termos do aditamento; incabível em 2ª instância (Súmula 453 do STF) e na ação penal exclusivamente privada (caput restringe à ação pública/queixa subsidiária)."
+        },
+        {
+          "peca": "Alegações finais orais",
+          "base_legal": "Art. 403, caput e §§ 1º a 3º, do CPP",
+          "quando": "ao final da audiência de instrução, não havendo requerimento de diligências (art. 402 do CPP) ou sendo este indeferido, e não havendo conversão em memoriais",
+          "observacoes": "Prazo de referência: 20 minutos para acusação e defesa, sucessivamente, prorrogáveis por mais 10 (art. 403, caput); havendo mais de um acusado, o tempo da defesa é individual (§ 1º); assistente do MP fala por 10 minutos após a acusação, prorrogando-se por igual período o tempo da defesa (§ 2º); em caso de complexidade ou pluralidade de réus, o juiz pode converter em memoriais escritos no prazo sucessivo de 5 dias (§ 3º)."
+        },
+        {
+          "peca": "Pedido para recorrer em liberdade / reexame da prisão na sentença",
+          "base_legal": "Art. 387, §1º, do CPP",
+          "quando": "se houve condenação e o réu está preso ou o juiz deve decidir motivadamente sobre a manutenção/imposição de prisão",
+          "observacoes": "O juiz decide fundamentadamente sobre a prisão na sentença condenatória (Art. 387, §1º, CPP); a execução provisória da pena antes do trânsito é vedada (Art. 283 do CPP, ADCs 43/44/54 do STF), ressalvado o Tribunal do Júri (Art. 492, I, e, CPP)."
+        },
+        {
+          "peca": "Pedido de detração na sentença",
+          "base_legal": "Art. 387, §2º, do CPP e Art. 42 do CP",
+          "quando": "se houve condenação e o réu cumpriu prisão cautelar ou internação a ser computada para fins de fixação do regime inicial",
+          "observacoes": "O cômputo pelo juiz sentenciante limita-se à determinação do regime inicial; a detração ampla segue sendo atribuição do juízo da execução (Art. 66, III, c, da LEP)."
+        }
+      ]
+    },
+    {
+      "area": "penal",
+      "fase_id": "recursal",
+      "fase": "Recursal",
+      "ordem": 5,
+      "pecas": [
+        {
+          "peca": "Embargos de declaração contra acórdão",
+          "base_legal": "Art. 619 do CPP",
+          "quando": "se o acórdão contém ambiguidade, obscuridade, contradição ou omissão",
+          "observacoes": "Prazo: 2 dias da publicação (Art. 619 do CPP), contados em dias CORRIDOS (art. 798 do CPP — não se aplica a contagem em dias úteis do CPC); prazo em dobro para a Defensoria Pública (LC 80/94, arts. 44, I e 128, I); interrompem o prazo dos demais recursos (art. 1.026 do CPC, subsidiário), salvo se reconhecidos protelatórios; servem ao prequestionamento visando REsp/RE."
+        },
+        {
+          "peca": "Embargos infringentes e de nulidade",
+          "base_legal": "Art. 609, parágrafo único, do CPP",
+          "quando": "se o acórdão de segunda instância (em apelação, RESE ou agravo em execução) foi desfavorável ao réu por maioria de votos (não unânime), com divergência em desfavor da defesa",
+          "observacoes": "Prazo de referência: 10 dias da publicação do acórdão (art. 609, parágrafo único, CPP); em dobro para a Defensoria Pública; recurso exclusivo da defesa; se o desacordo for parcial, limitado à matéria objeto da divergência; não cabem contra acórdão em habeas corpus, revisão criminal ou ação penal originária."
+        },
+        {
+          "peca": "Habeas corpus",
+          "base_legal": "Art. 5º, LXVIII, da CF e Arts. 647 e 648 do CPP",
+          "quando": "se há constrangimento ilegal à liberdade em qualquer momento da fase recursal (ex.: prisão sem fundamentação, excesso de prazo)",
+          "observacoes": "Sem prazo e sem preclusão; tribunais restringem seu uso como substitutivo de recurso próprio, mas concedem ordem de ofício em ilegalidade flagrante."
+        },
+        {
+          "peca": "Apelação",
+          "base_legal": "Art. 593 do CPP",
+          "quando": "contra sentença definitiva de condenação ou absolvição de juiz singular (art. 593, I), decisões definitivas ou com força de definitivas (art. 593, II) e decisões do Tribunal do Júri nas hipóteses do art. 593, III, dentro do prazo de 5 dias contado da última intimação (réu ou defensor)",
+          "observacoes": "Prazo de referência: 5 dias para interposição (art. 593, caput, CPP) e 8 dias para razões (art. 600, CPP; 3 dias nas contravenções); Defensoria Pública tem prazo em dobro (LC 80/94, arts. 44, I, 89, I e 128, I); réu e defensor devem ambos ser intimados — o prazo corre da última intimação; réu pode apelar pessoalmente (art. 577, CPP); razões fora do prazo são mera irregularidade e não tornam o recurso intempestivo; possível arrazoar na superior instância (art. 600, §4º, CPP)."
+        },
+        {
+          "peca": "Recurso em sentido estrito (RESE)",
+          "base_legal": "Art. 581 do CPP",
+          "quando": "contra decisões interlocutórias listadas taxativamente no Art. 581 (ex.: rejeição da denúncia, pronúncia, decisões sobre fiança e prisão)",
+          "observacoes": "Prazo de referência: 5 dias (Art. 586 do CPP; exceção: 20 dias no caso do inciso XIV — lista de jurados, Art. 586, p.u.), razões em 2 dias (Art. 588 do CPP); rol taxativo — conferir enquadramento da decisão (jurisprudência admite interpretação extensiva apenas pontual); possui juízo de retratação (Art. 589 do CPP); contagem em dias corridos e contínuos (Art. 798 do CPP — não se aplica a contagem em dias úteis do CPC); Defensoria Pública tem prazo em dobro (LC 80/94, arts. 44, I, e 128, I)."
+        },
+        {
+          "peca": "Recurso especial e/ou recurso extraordinário",
+          "base_legal": "Art. 105, III, da CF (REsp) e Art. 102, III e §3º, da CF (RE); Arts. 1.029 e seguintes do CPC, aplicáveis ao processo penal por força do Art. 638 do CPP",
+          "quando": "contra acórdão de única ou última instância de TJ/TRF (REsp não cabe contra decisão de turma recursal de juizado — Súmula 203 do STJ) que contrariar tratado ou lei federal ou negar-lhes vigência, julgar válido ato de governo local em face de lei federal ou der à lei federal interpretação divergente (REsp, Art. 105, III, a–c); ou que contrariar a Constituição, declarar inconstitucionalidade de tratado ou lei federal ou julgar válida lei/ato local em face da CF (RE, Art. 102, III, a–d), exigida repercussão geral (Art. 102, §3º)",
+          "observacoes": "Prazo de referência: 15 dias (Art. 1.003, §5º, do CPC — no processo penal, contados em dias corridos, Art. 798 do CPP); Defensoria Pública tem prazo em dobro (LC 80/94), o MP não; exigem prequestionamento (Súmulas 282 e 356 do STF) e esgotamento das instâncias ordinárias (Súmula 281 do STF); não têm efeito suspensivo automático e não se prestam a reexame de fatos e provas (Súmulas 7 do STJ e 279 do STF)."
+        }
+      ]
+    },
+    {
+      "area": "penal",
+      "fase_id": "execucao",
+      "fase": "Execução penal",
+      "ordem": 6,
+      "pecas": [
+        {
+          "peca": "Pedido de remição de pena",
+          "base_legal": "Art. 126 da LEP",
+          "quando": "se o apenado, em regime fechado ou semiaberto, trabalhou ou estudou (por trabalho só nesses regimes — caput); em regime aberto ou livramento condicional, apenas por estudo (§6º); leitura de obras aprovadas por jurisprudência consolidada; aplica-se também ao preso provisório (§7º) e ao regime domiciliar (§9º)",
+          "observacoes": "Referências: 1 dia de pena a cada 3 dias de trabalho ou a cada 12 horas de estudo divididas em no mínimo 3 dias (art. 126, §1º, LEP); acréscimo de 1/3 por conclusão de ensino fundamental/médio/superior (§5º); remição por leitura reconhecida pela jurisprudência (Recomendação 44/2013 e Resolução 391/2021 do CNJ); declarada pelo juiz da execução, ouvidos MP e defesa (§8º); falta grave pode acarretar perda de até 1/3 dos dias remidos (art. 127 da LEP)"
+        },
+        {
+          "peca": "Agravo em execução",
+          "base_legal": "Art. 197 da LEP",
+          "quando": "contra qualquer decisão do juiz da execução (ex.: indeferimento de progressão, regressão de regime, perda de dias remidos)",
+          "observacoes": "Prazo de referência: 5 dias (Súmula 700 do STF); sem efeito suspensivo em regra (Art. 197 da LEP); segue o rito do RESE por construção jurisprudencial."
+        },
+        {
+          "peca": "Pedido de livramento condicional",
+          "base_legal": "Art. 83 do CP e Arts. 131 a 146 da LEP",
+          "quando": "se cumprida a fração de pena exigida (pena privativa igual ou superior a 2 anos), reparado o dano salvo impossibilidade (Art. 83, IV, CP) e presentes os requisitos subjetivos",
+          "observacoes": "Frações no Art. 83 do CP (1/3, 1/2, 2/3 conforme o caso); concessão pelo juiz da execução, ouvidos MP e Conselho Penitenciário (Art. 131 da LEP); vedado para hediondos/equiparados com resultado morte após a Lei 13.964/2019 (Art. 112, VI, a, e VIII, da LEP) — vedação estendida a comando de organização criminosa ultraviolenta e a feminicídio primário (Art. 112, VI, b e d, LEP, este pela Lei 14.994/2024)."
+        },
+        {
+          "peca": "Revisão criminal",
+          "base_legal": "Arts. 621 a 631 do CPP",
+          "quando": "se, após o trânsito em julgado, a sentença condenatória for contrária ao texto expresso da lei penal ou à evidência dos autos, fundar-se em depoimentos/exames/documentos comprovadamente falsos, ou sobrevier prova nova de inocência ou de circunstância que determine ou autorize diminuição especial da pena (Art. 621, I a III, do CPP)",
+          "observacoes": "Sem prazo — cabível a qualquer tempo, antes ou após a extinção da pena (Art. 622 do CPP); vedada a reiteração do pedido, salvo se fundada em novas provas (Art. 622, parágrafo único); legitimidade do próprio réu, de procurador legalmente habilitado ou, se falecido o réu, de cônjuge/ascendente/descendente/irmão (Art. 623 do CPP); ação exclusiva pro reo (não há revisão pro societate); julgada procedente, pode o tribunal reconhecer justa indenização por erro judiciário (Art. 630 do CPP). Tecnicamente é ação autônoma de impugnação de competência originária do tribunal, não incidente da execução regido pela LEP."
+        }
+      ]
+    }
+  ]
+}

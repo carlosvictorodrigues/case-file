@@ -12,6 +12,8 @@ import {
 } from "../civil/document-map.js";
 import { extractCivilEvents } from "../civil/event-extractor.js";
 import { reconcileCivilEvents } from "../civil/event-reconciler.js";
+import { detectarFase } from "../civil/fase.js";
+import { listarFases, pecasDaFase } from "../civil/fases-pecas.js";
 import { buildCivilProceduralRadar } from "../civil/radar.js";
 import { foldText } from "../civil/text-fold.js";
 import { displayRef, evidenceId, stableCaseId } from "../domain/evidence.js";
@@ -198,6 +200,69 @@ export function getStatus(
     proxima_acao: proximaAcao,
     custo_estimado_ocr: custoEstimado,
     custo_acumulado_ocr: status.ocr_tokens ? custoAcumuladoOcr(status.ocr_tokens) : undefined,
+  };
+}
+
+/**
+ * Fase do processo derivada do caderno + peças de referência cabíveis.
+ * Referência para conferência — nunca ordem de protocolo nem data-limite.
+ */
+export function faseDoProcesso(
+  root: string,
+  caseId: string,
+  faseIdManual?: string,
+): {
+  case_id: string;
+  area: "civil" | "penal";
+  fase:
+    | ReturnType<typeof detectarFase>
+    | { fase_id: string; fase: string; origem: "informada_manualmente" };
+  pecas_cabiveis: Array<{ peca: string; base_legal: string; quando: string; observacoes?: string | null }>;
+  versao_tabela: string;
+  aviso: string;
+} {
+  const paths = casePaths(root, caseId);
+  const area = caseArea(root, paths.caseId);
+  const aviso =
+    "Referência para conferência: peças CANDIDATAS com base legal — o cabimento concreto depende de prazo (tabela de prazos), preclusão e estratégia; nada aqui é ordem de protocolo. A fase deriva das peças do caderno preparado e pode estar defasada em relação à última movimentação real.";
+
+  if (faseIdManual) {
+    const consulta = pecasDaFase(area, faseIdManual);
+    if (!consulta.fase) {
+      const validas = listarFases(area)
+        .map((f) => f.fase_id)
+        .join(", ");
+      throw new Error(
+        `Fase desconhecida para a área ${area}: '${faseIdManual}'. Válidas: ${validas}.`,
+      );
+    }
+    return {
+      case_id: paths.caseId,
+      area,
+      fase: { fase_id: consulta.fase.fase_id, fase: consulta.fase.fase, origem: "informada_manualmente" },
+      pecas_cabiveis: consulta.fase.pecas,
+      versao_tabela: consulta.versao,
+      aviso,
+    };
+  }
+
+  const ledger =
+    readOptionalJson<PageLedgerEntry[]>(join(paths.artifactsDir, "page_ledger.snapshot.json")) ?? [];
+  if (!ledger.length) {
+    throw new Error(
+      "Caso ainda sem páginas preparadas — conclua a preparação antes de apurar a fase.",
+    );
+  }
+  const mapa = loadDocumentMap(root, paths.caseId);
+  const fase = detectarFase(area, ledger, mapa);
+  const tabela = pecasDaFase(area, fase.fase_id);
+  return {
+    case_id: paths.caseId,
+    area,
+    fase,
+    pecas_cabiveis: tabela.fase?.pecas ?? [],
+    versao_tabela: tabela.versao,
+    aviso,
   };
 }
 

@@ -4,6 +4,7 @@ import {
   analyzeCivilCase,
   analyzeCivilRadar,
   authorizeOcr,
+  faseDoProcesso,
   removerCaso,
   buildEvidenceBundle,
   consultarLinhaDoTempo,
@@ -50,6 +51,10 @@ const createCaseSchema = z.object({
   slug: z.string().optional(),
 });
 const caseIdSchema = z.object({ case_id: z.string() });
+const faseSchema = z.object({
+  case_id: z.string().min(1),
+  fase_id: z.string().optional(),
+});
 const removerCasoSchema = z.object({
   case_id: z.string().min(1),
   confirmar: z.string().min(1),
@@ -311,6 +316,11 @@ export function makeTools(config: CaseFileConfig, deps: ToolDependencies = {}) {
           dadosPessoaisAdicionais: args.dados_pessoais_adicionais,
         },
       );
+    },
+
+    async fase_do_processo(input: unknown) {
+      const args = faseSchema.parse(input);
+      return faseDoProcesso(config.casesDir, args.case_id, args.fase_id);
     },
 
     async remover_caso(input: unknown) {
